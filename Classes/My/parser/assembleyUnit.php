@@ -21,11 +21,11 @@ class AssembleyUnit {
         $this->designation = $designation;
         $this->name = $name;
 
-        if($this->drawingFormat == "")
+        if($this->drawingFormat === null)
             $this->addWarning(new Warning("Формат чертежа, сборочной единицы, не задан"));
-        if($this->name == "")
+        if($this->name === '')
             $this->addWarning(new Warning("Не задано имя сборочной единицы", 5));
-        if($this->designation == "")
+        if($this->designation === null)
             $this->addWarning(new Warning("Шифр, сборочной единицы, не задан", 70));
     }
     public function addDoc(Document $doc) {
