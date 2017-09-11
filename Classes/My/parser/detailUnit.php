@@ -3,13 +3,13 @@
 /**
  * @property  addAssem
  */
-class AssembleyUnit {
+class DetailUnit {
 
     private $drawingFormat; //Формат чертежа
     private $designation; //обозначение
     private $name; //название сборочной единицы
-    private $docs;
     private $warnings;
+    private $material;
     /*
      * trust lvl
      * 0 - назначается при автоматическом парсинге
@@ -20,20 +20,17 @@ class AssembleyUnit {
      */
     private $trustlevel;
 
-    private $assembleys; //входящие сборки
-    private $detailUnits; //входящие детали
 
     public function __construct () {
-        $this->docs = [];
-        $this->assembleys = [];
+        $this->material = 'unknow';
         $this->warnings = [];
-        $this->detailUnits = [];
         $this->trustlevel = 0;
     }
-    public function init ($drawingFormat, $designation, $name) {
+    public function init ($drawingFormat, $designation, $name, $material) {
         $this->drawingFormat = $drawingFormat;
         $this->designation = $designation;
         $this->name = $name;
+        $this->material = $material;
 
         if($this->drawingFormat === null)
             $this->addWarning(new Warning('noFormat'));
@@ -41,23 +38,10 @@ class AssembleyUnit {
             $this->addWarning(new Warning('noName'));
         if($this->designation === null)
             $this->addWarning(new Warning('noDesign'));
+        if($this->material === null)
+            $this->addWarning(new Warning('noMaterial'));
     }
-    public function addDoc(Document $doc) {
-        $this->docs[] = $doc;
-    }
-    public function addAssemb(AssembleyUnit $assem, $count,  $specFormat) {
-        $this->assembleys[] = Array(
-            "count" => $count,
-            "specFormat" => $specFormat,
-            "unit" =>$assem
-        );
-    }
-    public function  addDetailUnit($detailInfo) {
-        $this->detailUnits[] = Array(
-            "count" => $detailInfo['count'],
-            "unit" => $detailInfo['detailUnit']
-        );
-    }
+
     public function addWarning(Warning $warn) {
         if(!in_array($warn, $this->warnings))
             $this->warnings[] = $warn;
