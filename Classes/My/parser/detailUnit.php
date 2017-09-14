@@ -54,4 +54,12 @@ class DetailUnit {
     {
         return $this->trustlevel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDesignation()
+    {
+        return $this->designation;
+    }
 }

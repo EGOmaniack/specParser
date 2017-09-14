@@ -3,11 +3,11 @@
 /**
  * @property  addAssem
  */
-class AssembleyUnit {
+class AssemblyUnit {
 
-    public $drawingFormat; //Формат чертежа
-    public $designation; //обозначение
-    public $name; //название сборочной единицы
+    private $drawingFormat; //Формат чертежа
+    private $designation; //обозначение
+    private $name; //название сборочной единицы
     private $docs;
     private $warnings;
     /*
@@ -20,7 +20,7 @@ class AssembleyUnit {
      */
     private $trustlevel;
 
-    public $assembleys; //входящие сборки
+    private $assembleys; //входящие сборки
     private $detailUnits; //входящие детали
 
     public function __construct () {
@@ -30,6 +30,15 @@ class AssembleyUnit {
         $this->detailUnits = [];
         $this->trustlevel = 0;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDesignation()
+    {
+        return $this->designation;
+    }
+
     private function checkErrors() {
         if($this->drawingFormat === null)
             $this->addWarning(new Warning('noFormat'));
@@ -46,13 +55,14 @@ class AssembleyUnit {
     public function addDoc(Document $doc) {
         $this->docs[] = $doc;
     }
-    public function addAssemb(AssembleyUnit $assem, $count,  $specFormat) {
+    public function addAssemb(AssemblyUnit $assem, $count,  $specFormat) {
         $this->assembleys[] = Array(
             "count" => $count,
             "specFormat" => $specFormat,
             "unit" =>$assem
         );
     }
+
     public function  addDetailUnit($detailInfo) {
         $this->detailUnits[] = Array(
             "count" => $detailInfo['count'],

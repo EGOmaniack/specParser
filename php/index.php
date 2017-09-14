@@ -7,7 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="./ajax/takeDataNean.php" method="post"
+    <div>Вариант 1</div>
+    <form action="./ajax/takeData.php" method="post"
         enctype="multipart/form-data">
         <input
             required
@@ -18,5 +19,19 @@
         >
         <input type="submit" value="Отправить">
     </form>
+    <div>Вариант 2</div>
+    <form action="./ajax/takeData2.php" method="post"
+          enctype="multipart/form-data">
+        <input type="text" name="rootSpec">
+        <input
+                required
+                multiple
+                type="file"
+                name="specs[]"
+                id="specs"
+        >
+        <input type="submit" value="Отправить">
+    </form>
+    <script src="script/main.js"></script>
 </body>
 </html>
