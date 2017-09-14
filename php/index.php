@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="./ajax/takeData.php" method="post"
+    <form action="./ajax/takeDataNean.php" method="post"
         enctype="multipart/form-data">
         <input
             required

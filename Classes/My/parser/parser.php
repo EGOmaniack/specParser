@@ -92,7 +92,7 @@ class Parser {
                     if(count($this->getAt(4, $j)) > 0) {
                         $podsborka = new DetailUnit();
                         $podsborka->init(
-                            null,
+                            $this->getDrawingFormat($j),
                             $this->getAt(3, $j),
                             $this->getAt(4, $j),
                             null

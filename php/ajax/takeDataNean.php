@@ -1,4 +1,5 @@
 <?php
+session_start();
 // ini_set('display_errors', 0) ;
 ini_set('xdebug.var_display_max_depth', 8);
 ini_set('xdebug.var_display_max_children', 256);
@@ -37,7 +38,7 @@ if(isset($_FILES['specs']) > 0) {
         $parcer = new Parser($objWorkSheet);
         $assemblyes[] = $parcer->parceAll();
     }
-    echo json_encode($assemblyes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    file_put_contents(str_replace("\\", "/",__DIR__ . "/uploads/data.json"), json_encode($assemblyes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 //    var_dump($assemblyes);
 
 } else {

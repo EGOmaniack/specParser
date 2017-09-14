@@ -1,0 +1,25 @@
+[
+    {
+        "drawingFormat": "2xA2",
+        "designation": "СМП 0.10.00",
+        "name": "Простая подсборка",
+        "assembleys": []
+    },
+    {
+        "drawingFormat": "2xA4, A2",
+        "designation": "СМП 0.00.00",
+        "name": "Простой пример",
+        "assembleys": [
+            {
+                "count": 1,
+                "specFormat": "2xA2",
+                "unit": {
+                    "drawingFormat": null,
+                    "designation": "",
+                    "name": "",
+                    "assembleys": []
+                }
+            }
+        ]
+    }
+]

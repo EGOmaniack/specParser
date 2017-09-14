@@ -12,7 +12,7 @@ class Warning {
 
         $warns = Array(
             "noFormat" =>   Array("warnlvl" => 10,  "message" => "Формат чертежа, не задан"),
-            "noName" =>     Array("warnlvl" => 5,   "message" => "Не задано имя сборочной единицы"),
+            "noName" =>     Array("warnlvl" => 5,   "message" => "Не задано название"),
             "noDesign" =>   Array("warnlvl" => 70,   "message" => "Шифр, не задан"),
             "noMaterial" => Array("warnlvl" => 10,   "message" => "Не заполнен материал")
         );
