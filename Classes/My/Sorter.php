@@ -1,6 +1,6 @@
 <?php
 // ini_set('display_errors', 0) ;
-ini_set('xdebug.var_display_max_depth', 3);
+ini_set('xdebug.var_display_max_depth', 22);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
@@ -73,27 +73,25 @@ class Sorter {
             $loopIndex ++;
 
             foreach ($this->dataArray["blankAssemblys"] as $blKey => $blAss) {
-                $isInTree = false;
-                $isInTree = $this->addToTree($blAss, $rootAssembly);
-                $isInTree !== true ? false : true;
-                if($isInTree == true) unset($this->dataArray["blankAssemblys"][$blKey]);
+                $this->addToTree($blAss, $rootAssembly, $blKey);
             }
 
-            if($loopIndex > 15000) {
+            if($loopIndex > 9999) {
                 echo "too mach assemblys work";
                 break;
             }
         }
 
-//        return $rootAssembly;
+        return $rootAssembly;
 //        var_dump($rootAssembly);
-        var_dump($this->dataArray); //['blankAssemblys']);
+//        var_dump($this->dataArray['blankAssemblys']);
     }
-    private function addToTree($blankAss, $assembly) {
+    private function addToTree($blankAss, $assembly, $blKey) {
         if($assembly->getDesignation() !== $blankAss["parentDesignation"]) { // Рекурсивно ищем куда воткнуть
+//            echo $assembly->getDesignation() . " ==? " . $blankAss["parentDesignation"] . "<br />";
             if(count($assembly->getAssemblys()) > 0) {
                 foreach ($assembly->getAssemblys() as $underAss) {
-                    return $this->addToTree($blankAss, $underAss["unit"]);
+                    $this->addToTree($blankAss, $underAss["unit"], $blKey);
                 }
             }
         } else {
@@ -102,7 +100,7 @@ class Sorter {
                 foreach ($this->dataArray["assemblys"] as $ass) {
                     if($ass->getDesignation() == $blankAss["designation"]) {
                         $assembly->addAssemb($ass, $blankAss["count"]);
-                        return true;
+                        unset($this->dataArray["blankAssemblys"][$blKey]);
                     }
                 }
             }

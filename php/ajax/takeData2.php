@@ -42,9 +42,9 @@ if(isset($_FILES['specs']) > 0) {
         }
         $sorter = new Sorter();
         $data = $sorter->rebuild($data);
-        $sorter->sort($data, $_POST['rootSpec']);
-//      echo json_encode($assemblyes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-//      var_dump($sortData);
+        $data = $sorter->sort($data, $_POST['rootSpec']);
+//      echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+      var_dump($data);
     } else {
         die("Необходимо указывать название главной сборочное единицы прим. \"УРМ 0.00.00\"");
     }

@@ -30,7 +30,6 @@ class AssemblyUnit {
         $this->detailUnits = [];
         $this->trustlevel = 0;
     }
-
     /**
      * @return mixed
      */
