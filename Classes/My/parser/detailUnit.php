@@ -22,7 +22,7 @@ class DetailUnit {
 
 
     public function __construct () {
-        $this->material = 'unknow';
+        $this->material = 'unknown';
         $this->warnings = [];
         $this->trustlevel = 0;
     }
@@ -36,7 +36,7 @@ class DetailUnit {
             $this->addWarning(new Warning('noFormat'));
         if($this->name === '')
             $this->addWarning(new Warning('noName'));
-        if($this->designation === null)
+        if($this->designation == '')
             $this->addWarning(new Warning('noDesign'));
         if($this->material === null)
             $this->addWarning(new Warning('noMaterial'));

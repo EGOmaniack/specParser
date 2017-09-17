@@ -23,7 +23,7 @@ class Parser {
     /**
      * @return array
      */
-    public function parceAll() {
+    public function parseAll() {
         $this->startParse();
         return Array(
             "assembly" => $this->assembly,
@@ -56,13 +56,16 @@ class Parser {
                             $this->assembly->init(
                                 $this->getDrawingFormat($j),
                                 trim(preg_replace("/(СБ)$/", null, $this->getAt(3, $j))),
-                                preg_replace("/([.\s+] Сборочный чертеж)/", null, $this->getAt(4, $j))
+                                preg_replace(
+                                    '/\s+/', " ",
+                                    preg_replace("/([.\s+] Сборочный чертеж)/", null, $this->getAt(4, $j))
+                                )
                             );
                         } else if($this->getAt(4, $j) != ""){ // Любая другая документация
                             $this->assembly->addDoc(new Document(
                                 $this->getDrawingFormat($j),
                                 $this->getAt(3, $j),
-                                $this->getAt(4, $j) )
+                                preg_replace('/\s+/'," ", $this->getAt(4, $j) ))
                             );
                         }
                     } else { //нашли пустую строку в разделе (Конец раздела Документация)
@@ -79,7 +82,10 @@ class Parser {
                         $this->blankAssemblys[] = Array(
                             "parentDesignation" =>$this->assembly->getDesignation(),
                             "designation" => trim(preg_replace("/(СБ)$/", null, $this->getAt(3, $j))),
-                            "name" => preg_replace("/([.\s+] Сборочный чертеж)/", null, $this->getAt(4, $j)),
+                            "name" =>preg_replace(
+                                        '/\s+/', ' ',
+                                        preg_replace("/([.\s+] Сборочный чертеж)/", null, $this->getAt(4, $j))
+                                    ),
                             "count" => $this->getAt(5, $j)
                         );
                     } else {    //нашли пустую строку в разделе (Конец раздела Сборочные единицы)
@@ -109,8 +115,7 @@ class Parser {
                                 "designation" => $this->getAt(3, $j),
                                 "name" => $this->getAt(4, $j)
                             );
-                    } else {    //нашли пустую строку в разделе (Конец раздела Сборочные единицы)
-//                        echo "Пустая строчка найдена";
+                    } else {    //нашли пустую строку в разделе (Конец раздела детали)
                         $i = $j;
                         break;
                     }

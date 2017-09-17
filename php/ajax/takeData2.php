@@ -1,6 +1,6 @@
 <?php
 // ini_set('display_errors', 0) ;
-ini_set('xdebug.var_display_max_depth', 4);
+ini_set('xdebug.var_display_max_depth', 10);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
@@ -36,12 +36,13 @@ if(isset($_FILES['specs']) > 0) {
             $objWorkSheet = $objExcel->getActiveSheet(); //Вся таблица 1ого листа
 
             $parcer = new Parser($objWorkSheet);
-            $data[] = $parcer->parceAll(); //Получили весь вал информации из спецификаций
-            $sorter = new Sorter();
+            $data[] = $parcer->parseAll(); //Получили весь вал информации из спецификаций
+
 
         }
-        $sortData = $sorter->rebuild($data);
-        $sorter->sort($sortData, $_POST['rootSpec']);
+        $sorter = new Sorter();
+        $data = $sorter->rebuild($data);
+        $sorter->sort($data, $_POST['rootSpec']);
 //      echo json_encode($assemblyes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 //      var_dump($sortData);
     } else {

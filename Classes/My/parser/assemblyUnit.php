@@ -20,12 +20,12 @@ class AssemblyUnit {
      */
     private $trustlevel;
 
-    private $assembleys; //входящие сборки
+    private $assemblys; //входящие сборки
     private $detailUnits; //входящие детали
 
     public function __construct () {
         $this->docs = [];
-        $this->assembleys = [];
+        $this->assemblys = [];
         $this->warnings = [];
         $this->detailUnits = [];
         $this->trustlevel = 0;
@@ -37,6 +37,14 @@ class AssemblyUnit {
     public function getDesignation()
     {
         return $this->designation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAssemblys()
+    {
+        return $this->assemblys;
     }
 
     private function checkErrors() {
@@ -55,8 +63,8 @@ class AssemblyUnit {
     public function addDoc(Document $doc) {
         $this->docs[] = $doc;
     }
-    public function addAssemb(AssemblyUnit $assem, $count,  $specFormat) {
-        $this->assembleys[] = Array(
+    public function addAssemb(AssemblyUnit $assem, $count,  $specFormat = null) {
+        $this->assemblys[] = Array(
             "count" => $count,
             "specFormat" => $specFormat,
             "unit" =>$assem

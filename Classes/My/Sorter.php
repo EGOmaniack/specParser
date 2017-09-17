@@ -1,35 +1,39 @@
 <?php
- ini_set('display_errors', 0) ;
-ini_set('xdebug.var_display_max_depth', 6);
+// ini_set('display_errors', 0) ;
+ini_set('xdebug.var_display_max_depth', 3);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
 class Sorter {
     private $dataArray;
 
+
     public function __construct() {
         $this->dataArray = [];
     }
 
+
     /**
      * @param array $data
+     * @param $rootDesign
+     * @return array
      */
     public function sort(Array $data, $rootDesign) {
-
-        $loopIndex = 0;
+        $this->dataArray = $data;
+        $loopIndex = -1;
         //Сортируем детали
-        while (count($data['blankDetails']) > 0) {
+        while (count($this->dataArray['blankDetails']) > 0) {
             $loopIndex ++;
             $detail = null;
-            $blank = $data['blankDetails'][0];
+            $blank = $this->dataArray['blankDetails'][$loopIndex];
 
-            foreach ($data['details'] as $det) {
+            foreach ($this->dataArray['details'] as $det) {
                 if($det->getDesignation() == $blank["designation"]) {
                     $detail = $det;
                 }
             }
 
-            foreach ($data['assembleys'] as $assem) {
+            foreach ($this->dataArray['assemblys'] as $assem) {
 
                 if($assem->getDesignation() == $blank["parentDesignation"]) {
                     $assem->addDetailUnit( Array(
@@ -37,39 +41,74 @@ class Sorter {
                             "detailUnit" => $detail
                         )
                     );
-                    unset($data['blankDetails'][0]);
+                    unset($this->dataArray['blankDetails'][$loopIndex]);
                 }
             }
 
 
             if($loopIndex > 9999) {
-                echo "too mach";
+                echo "too mach details work";
                 break;
             }
         }
+        unset($this->dataArray["details"]);
+        unset($this->dataArray["blankDetails"]);
 
-
-
-        var_dump($data);
-        $rootAssembley = null;
-        $rootAssKey = 0;
+        $rootAssembly = null;
 
         // Вытаскиваем root сборку из массива
-        foreach ($data['assembleys'] as $key => $assemb) {
+        foreach ($this->dataArray['assemblys'] as $key => $assemb) {
             if($assemb->getDesignation() == $rootDesign) {
-                $rootAssembley = $assemb;
-                $rootAssKey = $key;
+                $rootAssembly = $assemb;
+                unset($this->dataArray['assemblys'][$key]);
                 break;
             }
         }
 
-        if($rootAssembley === null) die("Не найдена главная спецификация");
+        if($rootAssembly === null) die("Не найдена главная спецификация");
+        // Выделил root сборку. Можно начинать собирать проект
 
-        unset($data['assembleys'][$rootAssKey]);
+        $loopIndex = -1;
+        while (count($this->dataArray["blankAssemblys"]) > 0) {
+            $loopIndex ++;
 
+            foreach ($this->dataArray["blankAssemblys"] as $blKey => $blAss) {
+                $isInTree = false;
+                $isInTree = $this->addToTree($blAss, $rootAssembly);
+                $isInTree !== true ? false : true;
+                if($isInTree == true) unset($this->dataArray["blankAssemblys"][$blKey]);
+            }
 
+            if($loopIndex > 15000) {
+                echo "too mach assemblys work";
+                break;
+            }
+        }
 
+//        return $rootAssembly;
+//        var_dump($rootAssembly);
+        var_dump($this->dataArray); //['blankAssemblys']);
     }
+    private function addToTree($blankAss, $assembly) {
+        if($assembly->getDesignation() !== $blankAss["parentDesignation"]) { // Рекурсивно ищем куда воткнуть
+            if(count($assembly->getAssemblys()) > 0) {
+                foreach ($assembly->getAssemblys() as $underAss) {
+                    return $this->addToTree($blankAss, $underAss["unit"]);
+                }
+            }
+        } else {
+            // Добавляем в эту сборку
+            if(count($this->dataArray) > 0) {
+                foreach ($this->dataArray["assemblys"] as $ass) {
+                    if($ass->getDesignation() == $blankAss["designation"]) {
+                        $assembly->addAssemb($ass, $blankAss["count"]);
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
 
     /**
      * @param array $data
@@ -101,7 +140,10 @@ class Sorter {
                 $specData['blankDetails']
             );
         }
-        $result['assembleys'] = $assemblys;
+        $result['assemblys'] = $assemblys;
+//        foreach ($assemblys as $ass) {
+//            $result['assemblys'][$ass->getDesignation()] = $ass;
+//        }
         $result['blankAssemblys'] = $blankAssemblys;
         $result['details'] = $details;
         $result['blankDetails'] = $blankDetails;
