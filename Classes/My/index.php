@@ -8,4 +8,5 @@ if (!defined('MYCLASSES_ROOT')) {
     include(MYCLASSES_ROOT . 'parser/warning.php');
     include(MYCLASSES_ROOT . 'parser/doc.php');
     include(MYCLASSES_ROOT . 'Sorter.php');
+    include(MYCLASSES_ROOT . 'Renderer.php');
 }

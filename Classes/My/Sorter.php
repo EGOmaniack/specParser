@@ -99,6 +99,10 @@ class Sorter {
             if(count($this->dataArray) > 0) {
                 foreach ($this->dataArray["assemblys"] as $ass) {
                     if($ass->getDesignation() == $blankAss["designation"]) {
+                        /*      добрасываем недостающую инфу        */
+                        $ass->setSpecFormat($blankAss['specFormat']);
+                        $ass->setName($blankAss['name']);
+                        /*      Так и сохраняем     */
                         $assembly->addAssemb($ass, $blankAss["count"]);
                         unset($this->dataArray["blankAssemblys"][$blKey]);
                     }

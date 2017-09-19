@@ -31,22 +31,24 @@ class DetailUnit {
         $this->designation = $designation;
         $this->name = $name;
         $this->material = $material;
+        $this->checkWarnings();
+    }
 
-        if($this->drawingFormat === null)
+    public function checkWarnings() {
+        $this->warnings = [];
+        if($this->drawingFormat == '')
             $this->addWarning(new Warning('noFormat'));
-        if($this->name === '')
+        if($this->name == '')
             $this->addWarning(new Warning('noName'));
         if($this->designation == '')
             $this->addWarning(new Warning('noDesign'));
         if($this->material === null)
             $this->addWarning(new Warning('noMaterial'));
     }
-
     public function addWarning(Warning $warn) {
         if(!in_array($warn, $this->warnings))
             $this->warnings[] = $warn;
     }
-
     /**
      * @return int
      */
@@ -54,7 +56,6 @@ class DetailUnit {
     {
         return $this->trustlevel;
     }
-
     /**
      * @return mixed
      */

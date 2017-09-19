@@ -1,7 +1,5 @@
 <?php
 
-include 'constants.php';
-
 class Parser {
     private $excelObj;
     private $height;
@@ -9,6 +7,8 @@ class Parser {
     private $blankAssemblys; //Сборочные единицы упомянутые в спецификации и кол-во
     private $blankdetails; // детали упомянутые  в спецификации и кол-во
     private $details; // детали упомянутые  в спецификации
+    private $activeDetail;
+    private $categories;
     private $docs;
 
     public function __construct($excelObj) {
@@ -18,6 +18,12 @@ class Parser {
         $this->blankAssemblys = [];
         $this->blankdetails = [];
         $this->details = [];
+        $this->categories = array(
+            "DOC" => "документация",
+            "SBED" => "сборочные единицы",
+            "DETALI" => "детали",
+            "STANDART" => "стандартные изделия"
+        );
     }
 
     /**
@@ -30,26 +36,24 @@ class Parser {
             "blankAssembly" => $this->blankAssemblys,
             "details" => $this->details,
             "blankDetails" => $this->blankdetails
-            );
+        );
     }
-    private function getAt($x, $y){
-        return $this->excelObj->getCellByColumnAndRow($x,$y)->getValue();
-    }
-    private function startParse () { //Парсим стандартную спецификацию и заполняем $this->assembley
-
+    private function startParse () { //Парсим стандартную спецификацию и заполняем $this->assembly
         for ($i=0; $i < $this->height; $i++) {
+
+            /*      Парсим раздел Документация      */
 
             if(trim(
                 $this->strtolower_utf8(
                     $this->getAt(4, $i)
-                )) == DOC) { // Нашли раздел документация
-                for ($j=$i+2; $j <= $this->height; $j++) {
-                    if(count($this->getAt(4, $j)) > 0) {
+                )) == $this->categories["DOC"]) { // Нашли раздел документация
+                for ($j = $i+2; $j <= $this->height; $j++) {
+                    if($this->getAt(4, $j) != "") {
                         // нашли документ Сборка ли это?
                         //Нашли СБ
-                        if(preg_match("/" . SBORO4NIY4ERTEJ . "/",
+                        if(preg_match("/сборочный чертеж/",
                             $this->strtolower_utf8($this->getAt(4, $j))
-                        ) || preg_match("/(\sСБ)$/",
+                        ) || preg_match("/(СБ)$/",
                             $this->getAt(3, $j)
                         )
                         ) { // Сборочный чертеж в рвзделе документация
@@ -73,19 +77,23 @@ class Parser {
                         break;
                     }
                 }
+
+                /*      Парсим раздел Сборочные единицы      */
+
             } else if (trim(
                 $this->strtolower_utf8(
                     $this->getAt(4, $i)
-                )) == SBED) { // Нашли Сборочные единицы
+                )) == $this->categories["SBED"]) { // Нашли Сборочные единицы
                 for($j = $i+2; $j <= $this->height; $j ++) {
-                    if(count($this->getAt(4, $j)) > 0) {
+                    if($this->getAt(4, $j) != "") {
                         $this->blankAssemblys[] = Array(
                             "parentDesignation" =>$this->assembly->getDesignation(),
                             "designation" => trim(preg_replace("/(СБ)$/", null, $this->getAt(3, $j))),
-                            "name" =>preg_replace(
-                                        '/\s+/', ' ',
-                                        preg_replace("/([.\s+] Сборочный чертеж)/", null, $this->getAt(4, $j))
-                                    ),
+                            "specFormat" => $this->getAt(0, $j),
+                            "name" => preg_replace(
+                                '/\s+/', ' ',
+                                preg_replace("/([.\s+] Сборочный чертеж)/", null, $this->getAt(4, $j))
+                            ),
                             "count" => $this->getAt(5, $j)
                         );
                     } else {    //нашли пустую строку в разделе (Конец раздела Сборочные единицы)
@@ -94,28 +102,58 @@ class Parser {
                     }
                 }
 
+                /*      Парсим раздел Детали      */
+
             } else if (trim(
                     $this->strtolower_utf8(
                         $this->getAt(4, $i)
-                    )) == DETALI) { // Нашли Детали
-
+                    )) == $this->categories["DETALI"]) {  // Нашли Детали
+                $caption = null;
                 for($j = $i+2; $j <= $this->height; $j ++) {
-                    if(count($this->getAt(4, $j)) > 0) {
-                        $detail = new DetailUnit();
-                        $detail->init(
-                            $this->getDrawingFormat($j),
-                            $this->getAt(3, $j),
-                            $this->getAt(4, $j),
-                            null
-                        );
-                        $this->details[] = $detail;
-                        $this->blankdetails[] = Array(
-                                "parentDesignation" =>$this->assembly->getDesignation(),
-                                "count" => $this->getAt(5, $j),
-                                "designation" => $this->getAt(3, $j),
-                                "name" => $this->getAt(4, $j)
-                            );
-                    } else {    //нашли пустую строку в разделе (Конец раздела детали)
+                    if(!in_array($this->strtolower_utf8($this->getAt(4, $j)), $this->categories)) { // если это не новая категория
+                        if($this->getAt(4, $j) != "") {
+                            if($this->isCaption($j)){  // Нашел объединение
+                                $caption = $this->getAt(4, $j); // Запоминаем Заголовок объединения
+                            } else {  // не заголовок объединение
+                                //Вдруг это тело объединения
+                                $detail = new DetailUnit();
+                                if($caption !== null) { // Если заголовок объединения задан - то надо искать конец этой группы
+                                    if($this->isCaptureBody($j)) { //Мы все ещ под заголовком объединения
+                                        $detail->init(
+                                            $this->getDrawingFormat($j),
+                                            $this->getDesignation($j),
+                                            $caption . " " . $this->getAt(4, $j),
+                                            null
+                                        );
+                                        $this->details[] = $detail;
+                                        $this->blankdetails[] = Array(
+                                            "parentDesignation" => $this->assembly->getDesignation(),
+                                            "count" => $this->getAt(5, $j),
+                                            "designation" => $this->getDesignation($j),
+                                            "name" => $this->getAt(4, $j)
+                                        );
+                                    } else {
+                                        $caption = null;
+                                        $j--;
+                                    }
+                                } else {
+                                    $detail->init(
+                                        $this->getDrawingFormat($j),
+                                        $this->getDesignation($j),
+                                        $this->getAt(4, $j),
+                                        null
+                                    );
+                                    $this->details[] = $detail;
+                                    $this->blankdetails[] = Array(
+                                        "parentDesignation" => $this->assembly->getDesignation(),
+                                        "count" => $this->getAt(5, $j),
+                                        "designation" => $this->getDesignation($j),
+                                        "name" => $this->getAt(4, $j)
+                                    );
+                                }
+                            }
+                        }
+                    } else {  //нашли пустую строку в разделе (Конец раздела детали)
                         $i = $j;
                         break;
                     }
@@ -127,10 +165,47 @@ class Parser {
             }
         }
     }
+    private function isCaptureBody ($j) {
+        if(
+            $this->strtolower_utf8($this->getAt(0, $j)) == "бч" && /*деталь БЧ*/
+            $this->getAt(3, $j) != ''&& /*Есть обозначение*/
+            !preg_match("/ГОСТ/", $this->getAt(4, $j))
+        ) {
+            return true;
+        }
+        return false;
+    }
+    private function isCaption ($j) {
+        // Выясняем не объединение ли на этой строке (Только детали)
+        if($this->getAt(0, $j) == ''&& /*Нет формата*/
+        $this->strtolower_utf8($this->getAt(0, $j+1)) == "бч" &&/*Следующая деталь БЧ*/
+        $this->getAt(2, $j) == '' &&/*Нет позиции*/
+        $this->getAt(3, $j) == ''&& /*Нет обозначения*/
+        $this->getAt(5, $j) == '') /*Нет количества*/
+        {
+            return true;
+        }
+        return false;
+    }
+    private function getDesignation($j) {
+        $design = $this->getAt(3, $j);
+//        return $this->getAt(3, $j);
+        if(preg_match("/\A\s*(-[0-9]?[0-9])\s*/", $design)) {
+            // Это исполнение. Ищем обозначение
+            return $this->activeDetail . trim($design);
+        } else {
+            $this->activeDetail = $design; // Записываем последнюю деталь. вдруг будет исполнение
+            return $design;
+        }
+    }
     private function getDrawingFormat($j) {
-        return preg_match('/\*\)/', $this->getAt(0, $j)) ?
+        $zero = $this->getAt(0, $j);
+        return preg_match('/\*\)/', $zero )?
         preg_replace('/\*\)/', null, $this->getAt(6, $j)) :
-        $this->getAt(0, $j);
+        $zero;
+    }
+    private function getAt($x, $y){
+        return $this->excelObj->getCellByColumnAndRow($x,$y)->getValue();
     }
     private function strtolower_utf8($string){
         $convert_to = array(

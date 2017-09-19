@@ -22,6 +22,7 @@ class AssemblyUnit {
 
     private $assemblys; //входящие сборки
     private $detailUnits; //входящие детали
+    private $specFormat;
 
     public function __construct () {
         $this->docs = [];
@@ -29,6 +30,7 @@ class AssemblyUnit {
         $this->warnings = [];
         $this->detailUnits = [];
         $this->trustlevel = 0;
+        $this->specFormat = '';
     }
     /**
      * @return mixed
@@ -46,8 +48,17 @@ class AssemblyUnit {
         return $this->assemblys;
     }
 
+    /**
+     * @param string $specFormat
+     */
+    public function setSpecFormat($specFormat) {
+        $this->specFormat = $specFormat;
+        $this->checkErrors();
+    }
+
     private function checkErrors() {
-        if($this->drawingFormat === null)
+        $this->warnings = [];
+        if($this->drawingFormat == null)
             $this->addWarning(new Warning('noFormat'));
         if($this->name === '')
             $this->addWarning(new Warning('noName'));
@@ -58,14 +69,14 @@ class AssemblyUnit {
         $this->drawingFormat = $drawingFormat;
         $this->designation = $designation;
         $this->name = $name;
+        $this->checkErrors();
     }
     public function addDoc(Document $doc) {
         $this->docs[] = $doc;
     }
-    public function addAssemb(AssemblyUnit $assem, $count,  $specFormat = null) {
+    public function addAssemb(AssemblyUnit $assem, $count) {
         $this->assemblys[] = Array(
             "count" => $count,
-            "specFormat" => $specFormat,
             "unit" =>$assem
         );
     }
@@ -87,5 +98,13 @@ class AssemblyUnit {
     public function getTrustlevel()
     {
         return $this->trustlevel;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 }

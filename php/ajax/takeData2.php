@@ -37,18 +37,17 @@ if(isset($_FILES['specs']) > 0) {
 
             $parcer = new Parser($objWorkSheet);
             $data[] = $parcer->parseAll(); //Получили весь вал информации из спецификаций
-
-
         }
+//        var_dump($data);
         $sorter = new Sorter();
         $data = $sorter->rebuild($data);
         $data = $sorter->sort($data, $_POST['rootSpec']);
 //      echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-      var_dump($data);
+        var_dump($data);
     } else {
         die("Необходимо указывать название главной сборочное единицы прим. \"УРМ 0.00.00\"");
     }
 } else {
-    die("Файлов нет, возможно вы пытветесь отправить слишком большой файл");
+    die("Файлов нет или вы пытветесь отправить слишком большой файл");
 }
 ?>
