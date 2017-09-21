@@ -17,6 +17,13 @@ class Renderer {
         $this->data = $data;
     }
     public function render() {
+        if($this->mode == "default") {
+
+        }
+    }
+    // сортировать через uasort() http://php.net/manual/ru/function.uasort.php
+
+    private function getAssemblyInfo($assemb) {
 
     }
 }

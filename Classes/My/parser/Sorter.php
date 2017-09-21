@@ -121,6 +121,7 @@ class Sorter {
         $result = [];
 
         //TODO: сохранить все ключи в массив и перебирать его
+        //TODO: не допускать повторов при слиянии
 
         $assemblys = [];
         $blankAssemblys = [];

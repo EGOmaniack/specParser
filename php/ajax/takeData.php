@@ -4,7 +4,7 @@ ini_set('xdebug.var_display_max_depth', 8);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
-include '../../Classes/My/index.php';
+include '../../Classes/My/parser.php';
 include '../../Classes/PHPExcel.php';
 
 if(isset($_FILES['specs']) > 0) {

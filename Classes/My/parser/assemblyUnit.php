@@ -3,13 +3,10 @@
 /**
  * @property  addAssem
  */
-class AssemblyUnit {
+class AssemblyUnit extends SpecObject {
 
     private $drawingFormat; //Формат чертежа
-    private $designation; //обозначение
-    private $name; //название сборочной единицы
     private $docs;
-    private $warnings;
     /*
      * trust lvl
      * 0 - назначается при автоматическом парсинге
@@ -25,19 +22,13 @@ class AssemblyUnit {
     private $specFormat;
 
     public function __construct () {
+        $this->name = "";
         $this->docs = [];
         $this->assemblys = [];
         $this->warnings = [];
         $this->detailUnits = [];
         $this->trustlevel = 0;
         $this->specFormat = '';
-    }
-    /**
-     * @return mixed
-     */
-    public function getDesignation()
-    {
-        return $this->designation;
     }
 
     /**
@@ -87,10 +78,6 @@ class AssemblyUnit {
             "unit" => $detailInfo['detailUnit']
         );
     }
-    public function addWarning(Warning $warn) {
-        if(!in_array($warn, $this->warnings))
-            $this->warnings[] = $warn;
-    }
 
     /**
      * @return int
@@ -100,11 +87,5 @@ class AssemblyUnit {
         return $this->trustlevel;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
+
 }

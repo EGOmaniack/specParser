@@ -3,12 +3,9 @@
 /**
  * @property  addAssem
  */
-class DetailUnit {
+class DetailUnit extends SpecObject {
 
     private $drawingFormat; //Формат чертежа
-    private $designation; //обозначение
-    private $name; //название сборочной единицы
-    private $warnings;
     private $material;
     /*
      * trust lvl
@@ -45,22 +42,12 @@ class DetailUnit {
         if($this->material === null)
             $this->addWarning(new Warning('noMaterial'));
     }
-    public function addWarning(Warning $warn) {
-        if(!in_array($warn, $this->warnings))
-            $this->warnings[] = $warn;
-    }
+
     /**
      * @return int
      */
     public function getTrustlevel()
     {
         return $this->trustlevel;
-    }
-    /**
-     * @return mixed
-     */
-    public function getDesignation()
-    {
-        return $this->designation;
     }
 }
