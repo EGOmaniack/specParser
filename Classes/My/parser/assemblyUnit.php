@@ -87,5 +87,13 @@ class AssemblyUnit extends SpecObject {
         return $this->trustlevel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDrawingFormat()
+    {
+        return $this->drawingFormat;
+    }
+
 
 }

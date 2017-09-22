@@ -5,22 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e7a6895-6726-4043-9c1e-9f8c6f201608" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/My/parser.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Classes/My/index.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Classes/My/parser/constants.php" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Classes/My/Renderer.php" afterPath="$PROJECT_DIR$/Classes/My/parser/Renderer.php" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Classes/My/Sorter.php" afterPath="$PROJECT_DIR$/Classes/My/parser/Sorter.php" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Classes/My/helpers/strToLowerUtf.php" afterPath="$PROJECT_DIR$/Classes/My/helpers/helper.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/simple/excel/Спецификация подсборки.xls" afterPath="$PROJECT_DIR$/example/simple/excel/Спецификация подсборки.xls" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/simple/excel/Спецификация.xls" afterPath="$PROJECT_DIR$/example/simple/excel/Спецификация.xls" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/УРМ 1.00.00 Тележка.xls" afterPath="$PROJECT_DIR$/example/УРМ 1.00.00 Тележка.xls" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/УРМ 1.10.00 Электромагнит.xls" afterPath="$PROJECT_DIR$/example/УРМ 1.10.00 Электромагнит.xls" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/parser/Renderer.php" afterPath="$PROJECT_DIR$/Classes/My/parser/Renderer.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/parser/assemblyUnit.php" afterPath="$PROJECT_DIR$/Classes/My/parser/assemblyUnit.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/parser/detailUnit.php" afterPath="$PROJECT_DIR$/Classes/My/parser/detailUnit.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/parser/doc.php" afterPath="$PROJECT_DIR$/Classes/My/parser/doc.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/parser/parser.php" afterPath="$PROJECT_DIR$/Classes/My/parser/parser.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/ajax/takeData.php" afterPath="$PROJECT_DIR$/php/ajax/takeData.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/ajax/takeData2.php" afterPath="$PROJECT_DIR$/php/ajax/takeData2.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,8 +22,8 @@
       <file leaf-file-name="warning.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/My/parser/warning.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="1" lean-forward="false" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+            <state relative-caret-position="119">
+              <caret line="7" column="20" lean-forward="false" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -45,8 +32,8 @@
       <file leaf-file-name="assemblyUnit.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/My/parser/assemblyUnit.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="44" column="48" lean-forward="true" selection-start-line="44" selection-start-column="48" selection-end-line="44" selection-end-column="48" />
+            <state relative-caret-position="819">
+              <caret line="92" column="36" lean-forward="false" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -56,7 +43,7 @@
         <entry file="file://$PROJECT_DIR$/Classes/My/parser/specObject.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
-              <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+              <caret line="16" column="20" lean-forward="false" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -66,7 +53,7 @@
         <entry file="file://$PROJECT_DIR$/Classes/My/parser/detailUnit.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="561">
-              <caret line="33" column="4" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="40" selection-end-column="55" />
+              <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="40" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -85,8 +72,8 @@
       <file leaf-file-name="takeData2.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/php/ajax/takeData2.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
-              <caret line="46" column="26" lean-forward="true" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
+            <state relative-caret-position="1173">
+              <caret line="69" column="20" lean-forward="false" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -95,9 +82,11 @@
       <file leaf-file-name="Renderer.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Classes/My/parser/Renderer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="28" column="1" lean-forward="true" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
-              <folding />
+            <state relative-caret-position="204">
+              <caret line="29" column="38" lean-forward="true" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
+              <folding>
+                <marker date="1506063291412" expanded="true" signature="2801:2908" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -106,7 +95,7 @@
         <entry file="file://$PROJECT_DIR$/Classes/My/parser.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+              <caret line="12" column="1" lean-forward="false" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -126,7 +115,7 @@
         <entry file="file://$PROJECT_DIR$/Classes/My/parser/parser.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="595">
-              <caret line="35" column="36" lean-forward="true" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+              <caret line="35" column="36" lean-forward="false" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -148,7 +137,6 @@
       <list>
         <option value="$PROJECT_DIR$/Classes/My/parser/index.php" />
         <option value="$PROJECT_DIR$/Classes/My/parser/constants.php" />
-        <option value="$PROJECT_DIR$/Classes/My/parser/warning.php" />
         <option value="$PROJECT_DIR$/Classes/My/parser/assembleyUnit.php" />
         <option value="$PROJECT_DIR$/php/ajax/takeData.php" />
         <option value="$PROJECT_DIR$/php/index.php" />
@@ -166,8 +154,9 @@
         <option value="$PROJECT_DIR$/Classes/My/parser/doc.php" />
         <option value="$PROJECT_DIR$/Classes/My/parser/specObject.php" />
         <option value="$PROJECT_DIR$/Classes/My/parser/detailUnit.php" />
-        <option value="$PROJECT_DIR$/Classes/My/parser/assemblyUnit.php" />
+        <option value="$PROJECT_DIR$/Classes/My/parser/warning.php" />
         <option value="$PROJECT_DIR$/php/ajax/takeData2.php" />
+        <option value="$PROJECT_DIR$/Classes/My/parser/assemblyUnit.php" />
         <option value="$PROJECT_DIR$/Classes/My/parser/Renderer.php" />
       </list>
     </option>
@@ -192,7 +181,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-7" />
-    <option name="width" value="948" />
+    <option name="width" value="640" />
     <option name="height" value="1167" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -224,7 +213,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -272,7 +261,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -450,17 +439,19 @@
       <workItem from="1505803324835" duration="941000" />
       <workItem from="1505945528600" duration="12909000" />
       <workItem from="1505963522663" duration="3566000" />
+      <workItem from="1506051107576" duration="7396000" />
+      <workItem from="1506061563304" duration="1748000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="93089000" />
+    <option name="totallyTimeSpent" value="102233000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="948" height="1167" extended-state="0" />
+    <frame x="-7" y="0" width="640" height="1167" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27682403" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18071066" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12618595" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -479,6 +470,26 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33301708" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12618595" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18071066" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33301708" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.024546424" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -777,15 +788,7 @@
     <entry file="file://$PROJECT_DIR$/Classes/My/parser/parser.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
-          <caret line="35" column="36" lean-forward="true" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/My/parser.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+          <caret line="35" column="36" lean-forward="false" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -801,7 +804,31 @@
     <entry file="file://$PROJECT_DIR$/Classes/My/parser/detailUnit.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
-          <caret line="33" column="4" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="40" selection-end-column="55" />
+          <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="40" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/My/parser.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="1" lean-forward="false" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/php/ajax/takeData2.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1173">
+          <caret line="69" column="20" lean-forward="false" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/My/parser/warning.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="20" lean-forward="false" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -809,40 +836,26 @@
     <entry file="file://$PROJECT_DIR$/Classes/My/parser/specObject.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/My/parser/warning.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="1" lean-forward="false" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+          <caret line="16" column="20" lean-forward="false" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/My/parser/assemblyUnit.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="44" column="48" lean-forward="true" selection-start-line="44" selection-start-column="48" selection-end-line="44" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/ajax/takeData2.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="46" column="26" lean-forward="true" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
+        <state relative-caret-position="819">
+          <caret line="92" column="36" lean-forward="false" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/My/parser/Renderer.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="28" column="1" lean-forward="true" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
-          <folding />
+        <state relative-caret-position="204">
+          <caret line="29" column="38" lean-forward="true" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
+          <folding>
+            <marker date="1506063291412" expanded="true" signature="2801:2908" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

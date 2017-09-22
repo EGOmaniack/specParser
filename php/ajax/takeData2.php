@@ -45,6 +45,8 @@ if(isset($_FILES['specs']) > 0) {
 //      echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 //        var_dump($data);
 //        echo serialize($data);
+        $render = new Renderer();
+        $render->loadData($data);
     } else {
         die("Необходимо указывать название главной сборочное единицы прим. \"УРМ 0.00.00\"");
     }
@@ -52,3 +54,35 @@ if(isset($_FILES['specs']) > 0) {
     die("Файлов нет или вы пытветесь отправить слишком большой файл");
 }
 ?>
+
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <?php echo $render->render(); ?>
+</body>
+</html>
