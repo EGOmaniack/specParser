@@ -1,10 +1,11 @@
 <?php
 /* Объект спецификации  */
 
-class specObject {
+class SpecObject {
     protected $name;
     protected $designation;
     protected $warnings;
+    protected $notation;
 
     /**
      * @param string $name
@@ -28,16 +29,17 @@ class specObject {
             $this->warnings[] = $warn;
     }
 
-    public function getWarnings(): array {
+    public function getWarnings($minWarnLvl = 0): ?array {
+        $result = null;
         if(count($this->warnings) > 0) {
-            return array(
-                "designation" => $this->getDesignation(),
-                "name" => $this->getName(),
-                "warnings" => $this->warnings
-            );
-        } else {
-            return null;
+            foreach ($this->warnings as $warning) {
+                if($warning->warnLvl > $minWarnLvl) {
+                    $result[] = $warning;
+                }
+            }
         }
+
+        return $result;
     }
 
     /**
@@ -46,6 +48,14 @@ class specObject {
     public function getDesignation()
     {
         return $this->designation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotation()
+    {
+        return $this->notation;
     }
 
 }

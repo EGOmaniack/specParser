@@ -34,11 +34,11 @@ class Sorter {
             }
 
             foreach ($this->dataArray['assemblys'] as $assem) {
-
                 if($assem->getDesignation() == $blank["parentDesignation"]) {
                     $assem->addDetailUnit( Array(
                             "count" => $blank['count'],
-                            "detailUnit" => $detail
+                            "unit" => $detail,
+                            "posNum" => $blank['posNum']
                         )
                     );
                     unset($this->dataArray['blankDetails'][$loopIndex]);
@@ -77,13 +77,15 @@ class Sorter {
             }
 
             if($loopIndex > 9999) {
-                echo "too mach assemblys work";
+                echo "Не все сборки удалось определить <br />";
+                echo "Оставшиеся упоминания о сборках:";
+                var_dump($this->dataArray["blankAssemblys"]);
                 break;
             }
         }
 
         return $rootAssembly;
-//        var_dump($rootAssembly);
+//        var_dump($rootAssembly); exit;
 //        var_dump($this->dataArray['blankAssemblys']);
     }
     private function addToTree($blankAss, $assembly, $blKey) {
@@ -103,7 +105,7 @@ class Sorter {
                         $ass->setSpecFormat($blankAss['specFormat']);
                         $ass->setName($blankAss['name']);
                         /*      Так и сохраняем     */
-                        $assembly->addAssemb($ass, $blankAss["count"]);
+                        $assembly->addAssemb($ass, $blankAss["count"], $blankAss['posNum']);
                         unset($this->dataArray["blankAssemblys"][$blKey]);
                     }
                 }
@@ -123,13 +125,37 @@ class Sorter {
         //TODO: сохранить все ключи в массив и перебирать его
         //TODO: не допускать повторов при слиянии
 
+        $meAssemb = new AssemblyUnit();
+        $meAssemb->init(array(
+            "drawingFormat" => "",
+            "designation" => "XXXXXXXXXXXXXXXX",
+            "name" => "",
+            "notation" => ""
+        ));
+        foreach ($data as $key => $specData) {
+            if($specData['me']) {
+                $meAssemb = $specData['assembly'];
+                unset($data[$key]);
+            }
+        }
         $assemblys = [];
         $blankAssemblys = [];
         $details = [];
         $blankDetails = [];
 
         foreach ($data as $specData) {
-            $assemblys[] = $specData['assembly'];
+//            var_dump($meAssemb); exit;
+            if($specData['assembly']->getDesignation() === $meAssemb->getDesignation()) {
+                $stUs = $meAssemb->getStandartUnits();
+                if(count($stUs)>0) {
+                    foreach ($stUs as $stU) {
+                        $specData['assembly']->addStandartUnit($stU);
+                    }
+                }
+            }
+
+            if(!$specData['me'])
+                $assemblys[] = $specData['assembly'];
             $blankAssemblys = array_merge(
                 $blankAssemblys,
                 $specData['blankAssembly']

@@ -3,10 +3,11 @@
 /**
  * @property  addAssem
  */
-class DetailUnit extends SpecObject {
+class DetailUnit extends SpecObject implements initable, iErrorChecker {
 
     private $drawingFormat; //Формат чертежа
     private $material;
+    public $isIspolnenie;
     /*
      * trust lvl
      * 0 - назначается при автоматическом парсинге
@@ -19,21 +20,26 @@ class DetailUnit extends SpecObject {
 
 
     public function __construct () {
+        $this->isIspolnenie = false;
         $this->material = 'unknown';
         $this->warnings = [];
         $this->trustlevel = 0;
     }
-    public function init ($drawingFormat, $designation, $name, $material) {
-        $this->drawingFormat = $drawingFormat;
-        $this->designation = $designation;
-        $this->name = $name;
-        $this->material = $material;
-        $this->checkWarnings();
+    public function init (array $info): void {
+
+        if(preg_match("/[-0-9]{3,3}$/", $info['designation']))
+            $this->isIspolnenie = true;
+        $this->drawingFormat = $info['drawingFormat'];
+        $this->designation = $info['designation'];
+        $this->name = $info['name'];
+        $this->notation = $info['notation'];
+        $this->material = $info['material'];
+        $this->checkErrors();
     }
 
-    public function checkWarnings() {
+    public function checkErrors(): void {
         $this->warnings = [];
-        if($this->drawingFormat == '')
+        if($this->drawingFormat == '' && !$this->isIspolnenie)
             $this->addWarning(new Warning('noFormat'));
         if($this->name == '')
             $this->addWarning(new Warning('noName'));
@@ -49,5 +55,13 @@ class DetailUnit extends SpecObject {
     public function getTrustlevel()
     {
         return $this->trustlevel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDrawingFormat()
+    {
+        return $this->drawingFormat;
     }
 }

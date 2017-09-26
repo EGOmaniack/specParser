@@ -3,7 +3,7 @@
 /**
  * @property  addAssem
  */
-class AssemblyUnit extends SpecObject {
+class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
 
     private $drawingFormat; //Формат чертежа
     private $docs;
@@ -16,17 +16,18 @@ class AssemblyUnit extends SpecObject {
      *
      */
     private $trustlevel;
-
+//    public $me; //bool Используется для описаниня МЭ. Для сборок false
     private $assemblys; //входящие сборки
     private $detailUnits; //входящие детали
-    private $specFormat;
+    private $specFormat; //формат спецификации
+    private $standartUnits; //Стандартные изделия
 
     public function __construct () {
-        $this->name = "";
         $this->docs = [];
         $this->assemblys = [];
         $this->warnings = [];
         $this->detailUnits = [];
+        $this->standartUnits = [];
         $this->trustlevel = 0;
         $this->specFormat = '';
     }
@@ -34,8 +35,7 @@ class AssemblyUnit extends SpecObject {
     /**
      * @return mixed
      */
-    public function getAssemblys()
-    {
+    public function getAssemblys() {
         return $this->assemblys;
     }
 
@@ -47,7 +47,7 @@ class AssemblyUnit extends SpecObject {
         $this->checkErrors();
     }
 
-    private function checkErrors() {
+    public function checkErrors(): void {
         $this->warnings = [];
         if($this->drawingFormat == null)
             $this->addWarning(new Warning('noFormat'));
@@ -56,43 +56,70 @@ class AssemblyUnit extends SpecObject {
         if($this->designation === null)
             $this->addWarning(new Warning('noDesign'));
     }
-    public function init ($drawingFormat, $designation, $name) {
-        $this->drawingFormat = $drawingFormat;
-        $this->designation = $designation;
-        $this->name = $name;
+    public function init (array $info): void {
+        $this->drawingFormat = $info['drawingFormat'];
+        $this->designation = $info['designation'];
+        $this->name = $info['name'];
+        $this->notation = $info['notation'];
         $this->checkErrors();
     }
-    public function addDoc(Document $doc) {
+    public function addDoc(Document $doc): void {
         $this->docs[] = $doc;
     }
-    public function addAssemb(AssemblyUnit $assem, $count) {
+    public function addAssemb(AssemblyUnit $assem, $count, $posNumber = null): void {
         $this->assemblys[] = Array(
             "count" => $count,
-            "unit" =>$assem
+            "unit" =>$assem,
+            "posNum" => $posNumber
         );
     }
 
-    public function  addDetailUnit($detailInfo) {
+    public function  addDetailUnit($detailInfo): void {
         $this->detailUnits[] = Array(
             "count" => $detailInfo['count'],
-            "unit" => $detailInfo['detailUnit']
+            "unit" => $detailInfo['unit'],
+            "posNum" => $detailInfo['posNum']
         );
     }
 
     /**
      * @return int
      */
-    public function getTrustlevel()
-    {
+    public function getTrustlevel() {
         return $this->trustlevel;
     }
 
     /**
      * @return mixed
      */
-    public function getDrawingFormat()
-    {
+    public function getDrawingFormat() {
         return $this->drawingFormat;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDetailUnits(): array {
+        return $this->detailUnits;
+    }
+
+    /**
+     * @param $stUInfo
+     */
+    public function addStandartUnit($stUInfo): void {
+        $this->standartUnits[] = array(
+            'unit' => $stUInfo['unit'],
+            'count' => $stUInfo['count'],
+            "posNum" => $stUInfo['posNum']
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getStandartUnits(): array
+    {
+        return $this->standartUnits;
     }
 
 
