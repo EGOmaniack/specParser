@@ -15,6 +15,7 @@ class Parser {
     private $specificationInfo;
     private $index;
     private $forceDesign;
+    private $subAssembs;
 
     public function __construct(PHPExcel_Worksheet $excelObj, string $fileName, int $index = 0, string $forceDesign = null) {
         $this->index = $index;
@@ -31,7 +32,11 @@ class Parser {
 
         $this->getSpecificationInfo();
         $this->initSections();
-        echo "File - " . $fileName;
+        $this->subAssembs = [];
+//        if($index > 0) {
+//            var_dump($this->sections);
+//            exit;
+//        }
     }
     private function MeDetect(): bool {
         $result = false;
@@ -65,7 +70,7 @@ class Parser {
                 $count = 0;
                 for($j = $i; $j <= $this->height; $j++ ) {
                     $jline = $this->getAt(4, $j);
-                    if(preg_match("/[А-Я]{1,10}\s[0-9.]{3,}(-[0-9][0-9])?/", $jline)) {
+                    if(preg_match("/[1-9]?[а-яА-ЯA-Za-z]{1,6}(\.|\s+)?[0-9][0-9.\s]{2,}\s*(-[0-9][0-9])?/", $jline)) {
 
                         if($count > 0)
                             $result['assemblys'][$count-1]['endLine'] = ($j - 1);
@@ -90,12 +95,13 @@ class Parser {
 //            var_dump($this->specificationInfo);
             if($this->index > 0) {
                 //достаем не общую информацию
-                $i = $this->specificationInfo['assemblys'][$this->index]['startLine'];
-                echo "i = " . $i;
+                $i = $this->specificationInfo['assemblys'][$this->index-1]['startLine'];
+                $this->specificationInfo['diffLineNum'] = $this->specificationInfo['assemblys'][$this->index-1]['endLine'];
+//                echo $this->specificationInfo['diffLineNum'];
+//                echo "i = " . $i;
             }
-        } else {
-            $this->me = $this->MeDetect();
         }
+        $this->me = $this->MeDetect();
         $lastSection = null;
         $cats = array(
             "DOC" => "документация",
@@ -119,12 +125,16 @@ class Parser {
                     $lastSection["start"] = $i+2;
                     $lastSection['end'] = (int) $this->specificationInfo['diffLineNum'];
                 } else {
-                    if($toLowName == $cats["DOC"] || $this->me) { //Первый раздел должен быть Документация либо это МЭ
+                    if($toLowName == $cats["DOC"] || $this->me) { //Первый раздел должен быть Документация либо это МЭ либо index не 0
                         /*      Раздел Документация     */
                         $lastSection["key"] = "DOC";
                         $lastSection["start"] = $i+2;
                         $lastSection['end'] = (int) $this->specificationInfo['diffLineNum'];
                         if($this->me) $i = 0;
+                    } else if($this->index > 0) {
+                        $lastSection["key"] = array_search($toLowName, $cats);
+                        $lastSection["start"] = $i+2;
+                        $lastSection['end'] = 0;
                     } else {
                         echo "Раздел Документация не задан <br />";
                         echo "Первый найденный раздел - " . $toLowName . "<br />";
@@ -149,12 +159,13 @@ class Parser {
      */
     public function parseAll() {
         $result = null;
+
+        if (!$this->me)
+            $this->parseDocs();
+        $this->parseAssemblys();
+        $this->parseDetails();
+        $this->parseStandartUnits();
         if($this->specificationInfo['count'] == 1) {
-            if (!$this->me)
-                $this->parseDocs();
-            $this->parseAssemblys();
-            $this->parseDetails();
-            $this->parseStandartUnits();
             $result = Array(Array(
                 "assembly" => $this->assembly,
                 "blankAssembly" => $this->blankAssemblys,
@@ -163,50 +174,97 @@ class Parser {
                 "me" => $this->me
             ));
         } else {
-            /* В спецификации более одной сборки
-             * Надо отсканировать общую часть
-             * Потом отсканировать все записи о разницах
-             * и смерджить общее с разницей
-             * Потом вернуть массив сборок
-            */
-            var_dump($this->sections);
-            exit;
+            if($this->index != 0) {
+                $result = Array(
+                    "assembly" => $this->assembly,
+                    "blankAssembly" => $this->blankAssemblys,
+                    "details" => $this->details,
+                    "blankDetails" => $this->blankdetails,
+                    "me" => $this->me
+                );
+            } else {
+                $subAssemblys = [];
+                for ($i = 0; $i < $this->specificationInfo['count']; $i++) {
+                    $subParcer = new Parser($this->excelObj, $this->fileName, $i + 1, $this->specificationInfo['assemblys'][$i]['designation']);
+                    $subAssemblys[] = $subParcer->parseAll();
+//                    var_dump($subAssemblys); exit;
+                } //foreach subAssemblys merge все свойства и return subAssemblys
+                $subAssemblys2 = [];
+                foreach ($subAssemblys as $subAss) {
+                    $subAss['blankAssembly'] = array_merge($subAss['blankAssembly'],
+                        $this->blankAssemblys);
+//                    var_dump($subAss);
+                    $subAss['details'] = array_merge($subAss['details'], $this->details);
+
+                    $subAss['blankDetails'] = array_merge($subAss['blankDetails'], $this->blankdetails);
+                    $subAssemblys2[] = $subAss;
+//                    var_dump($subAss); exit;
+                }
+//                var_dump($subAssemblys2); exit;
+                $result = $subAssemblys2; //чудеса !!!
+//                var_dump($result); exit;
+                /*
+                 * TODO:
+                 * В спецификации более одной сборки
+                 * Надо отсканировать общую часть
+                 * Потом отсканировать все записи о разницах
+                 * и смерджить общее с разницей
+                 * Потом вернуть массив сборок
+                */
+//                var_dump($subAssemblys);
+//                var_dump($this->specificationInfo);
+//            var_dump($this->assembly);
+//            var_dump($this->details);
+//                exit;
+            }
         }
+//        if($this->specificationInfo['count'] > 0)
+//            var_dump($result);
         return $result;
     }
     private function parseDocs() {
-        /*      Парсим раздел Документация      */
-        $i = $this->sections['DOC']["start"];
-        for (; $i <= $this->sections['DOC']["end"]; $i++) {
-            if ($this->getAt(4, $i) != "") {
-                // нашли документ Сборка ли это?
-                //Нашли СБ
-                if (preg_match("/сборочный чертеж/",
-                        $this->helper->strtolower_utf8($this->getAt(4, $i))
-                    ) || preg_match("/(СБ)$/",
-                        $this->getAt(3, $i)
-                    )
-                ) { // Сборочный чертеж в рвзделе документация
-                    $notation = $this->getAt(6, $i);
-                    $this->assembly->init(array(
-                        "drawingFormat" => $this->getDrawingFormat($i),
-                        "designation" => trim(preg_replace("/(СБ)$/", null, $this->getAt(3, $i))),
-                        "name" => preg_replace(
-                            '/\s+/', " ",
-                            preg_replace("/([.\s+]?Сборочный чертеж)/", null, $this->getAt(4, $i))
-                        ),
-                        "notation" => preg_match('/\*\)/', $notation) ? "" : $notation
+        if(!$this->forceDesign) {
+            /*      Парсим раздел Документация      */
+            $i = $this->sections['DOC']["start"];
+            for (; $i <= $this->sections['DOC']["end"]; $i++) {
+                if ($this->getAt(4, $i) != "") {
+                    // нашли документ Сборка ли это?
+                    //Нашли СБ
+                    if (preg_match("/сборочный чертеж/",
+                            $this->helper->strtolower_utf8($this->getAt(4, $i))
+                        ) || preg_match("/(СБ)$/",
+                            $this->getAt(3, $i)
                         )
-                    );
-                } else if ($this->getAt(4, $i) != "") { // Любая другая документация
-                    $this->assembly->addDoc(new Document(
-                            $this->getDrawingFormat($i),
-                            $this->getAt(3, $i),
-                            preg_replace('/\s+/', "", $this->getAt(4, $i)))
-                    );
+                    ) { // Сборочный чертеж в рвзделе документация
+                        $notation = $this->getAt(6, $i);
+                        $this->assembly->init(array(
+                                "drawingFormat" => $this->getDrawingFormat($i),
+                                "designation" => trim(preg_replace("/(СБ)$/", null, $this->getAt(3, $i))),
+                                "name" => preg_replace(
+                                    '/\s+/', " ",
+                                    preg_replace("/([.\s+]?Сборочный чертеж)/", null, $this->getAt(4, $i))
+                                ),
+                                "notation" => preg_match('/\*\)/', $notation) ? "" : $notation
+                            )
+                        );
+                    } else if ($this->getAt(4, $i) != "") { // Любая другая документация
+                        $this->assembly->addDoc(new Document(
+                                $this->getDrawingFormat($i),
+                                $this->getAt(3, $i),
+                                preg_replace('/\s+/', "", $this->getAt(4, $i)))
+                        );
+                    }
                 }
-            }
 
+            }
+        } else {
+            $this->assembly->init(array(
+                    "drawingFormat" => "",
+                    "designation" => $this->forceDesign,
+                    "name" => "",
+                    "notation" => ""
+                )
+            );
         }
     }
     private function parseAssemblys() {
