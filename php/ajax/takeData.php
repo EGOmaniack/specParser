@@ -36,7 +36,9 @@ if(isset($_FILES['specs']) > 0) {
             $objWorkSheet = $objExcel->getActiveSheet(); //Вся таблица 1ого листа
 
             $parcer = new Parser($objWorkSheet, $file['name']);
-            $data[] = $parcer->parseAll(); //Получили весь вал информации из спецификаций
+            $next = $parcer->parseAll();
+            if($next !== null)
+                $data = array_merge($data, $next); //Получили весь вал информации из спецификаций
         }
 //        var_dump($data);
 //        exit;

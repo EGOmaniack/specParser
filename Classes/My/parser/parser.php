@@ -9,11 +9,16 @@ class Parser {
     private $details; // детали упомянутые  в спецификации
     private $activeDetail;
     private $helper;
-    private $sections;  // граници всех разделов
+    private $sections;  // граници всех разделов плоской части? спецификации
     private $fileName;
     private $me;
+    private $specificationInfo;
+    private $index;
+    private $forceDesign;
 
-    public function __construct(PHPExcel_Worksheet $excelObj, string $fileName) {
+    public function __construct(PHPExcel_Worksheet $excelObj, string $fileName, int $index = 0, string $forceDesign = null) {
+        $this->index = $index;
+        $this->forceDesign = $forceDesign;
         $this->assembly = new AssemblyUnit();
         $this->excelObj = $excelObj;
         $this->height = $excelObj->getHighestRow();
@@ -23,13 +28,10 @@ class Parser {
         $this->helper = new Helper();
         $this->sections = [];
         $this->fileName = $fileName;
+
+        $this->getSpecificationInfo();
         $this->initSections();
-    }
-    private function saveSection($lastS) {
-        $this->sections[$lastS["key"]] = array(
-            "start" => $lastS['start'],
-            "end" => $lastS["end"]
-        );
+        echo "File - " . $fileName;
     }
     private function MeDetect(): bool {
         $result = false;
@@ -48,8 +50,52 @@ class Parser {
         }
         return $result;
     }
+    private function getSpecificationInfo () {
+        $result = array(
+            "count" => 1,
+            "diffLineNum" => (int) $this->height,
+            "assemblys" => array()
+        );
+        for ($i=1; $i <= $this->height; $i++) {
+            $line = $this->getAt(3, $i);
+            $pattern = "/(П|п)(еременные)\s(данные)([\sа-я:]*+)/"; // Нашли "Переменные данные для исполнений:"
+            if(preg_match($pattern, $line)) {
+                //Выяснилось что тут более одной сборки описывается
+                $result['count'] += 1;
+                $count = 0;
+                for($j = $i; $j <= $this->height; $j++ ) {
+                    $jline = $this->getAt(4, $j);
+                    if(preg_match("/[А-Я]{1,10}\s[0-9.]{3,}(-[0-9][0-9])?/", $jline)) {
+
+                        if($count > 0)
+                            $result['assemblys'][$count-1]['endLine'] = ($j - 1);
+                        $count++;
+                        $result['assemblys'][] = array(
+                            "designation" => $jline,
+                            "startLine" => ($j+1),
+                            "endLine" => (int) $this->height
+                        );
+                    }
+                }
+                $result['count'] = $count;
+                $result['diffLineNum'] = $i;
+                break;
+            }
+        }
+        $this->specificationInfo = $result;
+    }
     private function initSections () {
-        $this->me = $this->MeDetect();
+        $i = 1;
+        if($this->specificationInfo['count'] !== 0) {
+//            var_dump($this->specificationInfo);
+            if($this->index > 0) {
+                //достаем не общую информацию
+                $i = $this->specificationInfo['assemblys'][$this->index]['startLine'];
+                echo "i = " . $i;
+            }
+        } else {
+            $this->me = $this->MeDetect();
+        }
         $lastSection = null;
         $cats = array(
             "DOC" => "документация",
@@ -61,7 +107,7 @@ class Parser {
             "MATS" => "материалы",
             "KOMPLECTI" => "комплекты"
         );
-        for($i = 1; $i <= $this->height; $i++) {
+        for(; $i <= $this->specificationInfo['diffLineNum']; $i++) {
             $toLowName = trim($this->helper->strtolower_utf8($this->getAt(4, $i)));
             if(in_array($toLowName, $cats)) { // Нашли какой-то раздел
                 if(isset($lastSection)) {
@@ -71,13 +117,13 @@ class Parser {
 
                     $lastSection["key"] = array_search($toLowName, $cats);
                     $lastSection["start"] = $i+2;
-                    $lastSection['end'] = (int) $this->height;
+                    $lastSection['end'] = (int) $this->specificationInfo['diffLineNum'];
                 } else {
                     if($toLowName == $cats["DOC"] || $this->me) { //Первый раздел должен быть Документация либо это МЭ
                         /*      Раздел Документация     */
                         $lastSection["key"] = "DOC";
                         $lastSection["start"] = $i+2;
-                        $lastSection['end'] = (int) $this->height;
+                        $lastSection['end'] = (int) $this->specificationInfo['diffLineNum'];
                         if($this->me) $i = 0;
                     } else {
                         echo "Раздел Документация не задан <br />";
@@ -87,27 +133,46 @@ class Parser {
                     }
                 }
             }
-            if($i == $this->height) {
+            if($i == $this->specificationInfo['diffLineNum']) {
                 $this->saveSection($lastSection);
             }
         }
+    }
+    private function saveSection($lastS) {
+        $this->sections[$lastS["key"]] = array(
+            "start" => $lastS['start'],
+            "end" => $lastS["end"]
+        );
     }
     /**
      * @return array
      */
     public function parseAll() {
-        if(!$this->me)
-            $this->parseDocs();
-        $this->parseAssemblys();
-        $this->parseDetails();
-        $this->parseStandartUnits();
-        return Array(
-            "assembly" => $this->assembly,
-            "blankAssembly" => $this->blankAssemblys,
-            "details" => $this->details,
-            "blankDetails" => $this->blankdetails,
-            "me" => $this->me
-        );
+        $result = null;
+        if($this->specificationInfo['count'] == 1) {
+            if (!$this->me)
+                $this->parseDocs();
+            $this->parseAssemblys();
+            $this->parseDetails();
+            $this->parseStandartUnits();
+            $result = Array(Array(
+                "assembly" => $this->assembly,
+                "blankAssembly" => $this->blankAssemblys,
+                "details" => $this->details,
+                "blankDetails" => $this->blankdetails,
+                "me" => $this->me
+            ));
+        } else {
+            /* В спецификации более одной сборки
+             * Надо отсканировать общую часть
+             * Потом отсканировать все записи о разницах
+             * и смерджить общее с разницей
+             * Потом вернуть массив сборок
+            */
+            var_dump($this->sections);
+            exit;
+        }
+        return $result;
     }
     private function parseDocs() {
         /*      Парсим раздел Документация      */
@@ -122,6 +187,7 @@ class Parser {
                         $this->getAt(3, $i)
                     )
                 ) { // Сборочный чертеж в рвзделе документация
+                    $notation = $this->getAt(6, $i);
                     $this->assembly->init(array(
                         "drawingFormat" => $this->getDrawingFormat($i),
                         "designation" => trim(preg_replace("/(СБ)$/", null, $this->getAt(3, $i))),
@@ -129,14 +195,14 @@ class Parser {
                             '/\s+/', " ",
                             preg_replace("/([.\s+]?Сборочный чертеж)/", null, $this->getAt(4, $i))
                         ),
-                        "notation" => $this->getAt(6, $i)
+                        "notation" => preg_match('/\*\)/', $notation) ? "" : $notation
                         )
                     );
                 } else if ($this->getAt(4, $i) != "") { // Любая другая документация
                     $this->assembly->addDoc(new Document(
                             $this->getDrawingFormat($i),
                             $this->getAt(3, $i),
-                            preg_replace('/\s+/', " ", $this->getAt(4, $i)))
+                            preg_replace('/\s+/', "", $this->getAt(4, $i)))
                     );
                 }
             }
@@ -271,10 +337,10 @@ class Parser {
         }
         return $design;
     }
-    private function getDrawingFormat($j) {
-        $zero = $this->getAt(0, $j);
+    private function getDrawingFormat($i) {
+        $zero = $this->getAt(0, $i);
         return preg_match('/\*\)/', $zero )?
-        preg_replace('/\*\)/', null, $this->getAt(6, $j)) :
+        preg_replace('/\*\)/', null, $this->getAt(6, $i)) :
         $zero;
     }
     private function getAt($x, $y){

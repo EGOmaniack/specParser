@@ -46,7 +46,7 @@ class Renderer {
         $warns = $specObj->getWarnings(10);
         if($warns != null) {
             foreach ($warns as $warning) {
-                $result .= $warning->message . "\n";
+                $result .= "\n<span style=\"color: orangered; weight: bold;\">" . $warning->message . "</span>\n";
             }
         }
 
