@@ -7,7 +7,7 @@ class Parser {
     private $blankAssemblys; //Сборочные единицы упомянутые в спецификации и кол-во
     private $blankdetails; // детали упомянутые  в спецификации и кол-во
     private $details; // детали упомянутые  в спецификации
-    private $activeDetail;
+    private $activeDesignation;
     private $helper;
     private $sections;  // граници всех разделов плоской части? спецификации
     private $fileName;
@@ -33,10 +33,7 @@ class Parser {
         $this->getSpecificationInfo();
         $this->initSections();
         $this->subAssembs = [];
-//        if($index > 0) {
-//            var_dump($this->sections);
-//            exit;
-//        }
+
     }
     private function MeDetect(): bool {
         $result = false;
@@ -54,6 +51,18 @@ class Parser {
             );
         }
         return $result;
+    }
+
+    /**
+     * @param array $blanks
+     * @param string $newParentDesignation
+     * @return array
+     */
+    private function changeParentForBlankDetail (array $blanks, string $newParentDesignation) {
+        foreach ($blanks as $key => $blank) {
+            $blanks[$key]['parentDesignation'] = $newParentDesignation;
+        }
+        return $blanks;
     }
     private function getSpecificationInfo () {
         $result = array(
@@ -165,6 +174,8 @@ class Parser {
         $this->parseAssemblys();
         $this->parseDetails();
         $this->parseStandartUnits();
+        $this->parseOtherUnits();
+        $this->parseMaterialUnits();
         if($this->specificationInfo['count'] == 1) {
             $result = Array(Array(
                 "assembly" => $this->assembly,
@@ -189,39 +200,28 @@ class Parser {
                     $subAssemblys[] = $subParcer->parseAll();
 //                    var_dump($subAssemblys); exit;
                 } //foreach subAssemblys merge все свойства и return subAssemblys
-                $subAssemblys2 = [];
-                foreach ($subAssemblys as $subAss) {
-                    $subAss['blankAssembly'] = array_merge($subAss['blankAssembly'],
-                        $this->blankAssemblys);
-//                    var_dump($subAss);
+                foreach ($subAssemblys as $key => $subAss) {
+                    $subAss['blankAssembly'] = array_merge($subAss['blankAssembly'], $this->blankAssemblys);
                     $subAss['details'] = array_merge($subAss['details'], $this->details);
 
-                    $subAss['blankDetails'] = array_merge($subAss['blankDetails'], $this->blankdetails);
-                    $subAssemblys2[] = $subAss;
-//                    var_dump($subAss); exit;
+                    $subAss['assembly']->addArrayOfStUnits($this->assembly->getStandartUnits());
+                    $subAss['assembly']->addArrayOfOthUnits($this->assembly->getOtherUnits());
+                    $subAss['assembly']->addArrayOfMatUnits($this->assembly->getMatUnits());
+                    $subAss['blankDetails'] = array_merge($subAss['blankDetails'],
+                        $this->changeParentForBlankDetail(
+                            $this->blankdetails,
+                            $subAss['assembly']->getDesignation()
+                            ));
+
+                    $subAssemblys[$key] = $subAss;
                 }
-//                var_dump($subAssemblys2); exit;
-                $result = $subAssemblys2; //чудеса !!!
-//                var_dump($result); exit;
-                /*
-                 * TODO:
-                 * В спецификации более одной сборки
-                 * Надо отсканировать общую часть
-                 * Потом отсканировать все записи о разницах
-                 * и смерджить общее с разницей
-                 * Потом вернуть массив сборок
-                */
-//                var_dump($subAssemblys);
-//                var_dump($this->specificationInfo);
-//            var_dump($this->assembly);
-//            var_dump($this->details);
-//                exit;
+                $result = $subAssemblys; //чудеса !!!
             }
         }
-//        if($this->specificationInfo['count'] > 0)
-//            var_dump($result);
+
         return $result;
     }
+
     private function parseDocs() {
         if(!$this->forceDesign) {
             /*      Парсим раздел Документация      */
@@ -275,7 +275,7 @@ class Parser {
                 if ($this->getAt(3, $i) != "") {
                     $this->blankAssemblys[] = Array(
                         "parentDesignation" => $this->assembly->getDesignation(),
-                        "designation" => trim(preg_replace("/(СБ)$/", null, $this->getAt(3, $i))),
+                        "designation" => trim(preg_replace("/(СБ)$/", null, $this->getDesignation($i)/*$this->getAt(3, $i)*/)),
                         "specFormat" => $this->getAt(0, $i),
                         "name" => preg_replace(
                             '/\s+/', ' ',
@@ -367,6 +367,46 @@ class Parser {
             }
         }
     }
+    private function parseOtherUnits () {
+        /*      Парсим раздел Прочие изделия      */
+        if(isset($this->sections['OTHER'])) {
+            $i = $this->sections['OTHER']['start'];
+            for (; $i < $this->sections['OTHER']['end']; $i++) {
+                if ($this->getAt(4, $i) != "") {
+                    $otherUnit = new OtherUnit();
+                    $otherUnit->init(array(
+                        "name" => $this->getAt(4, $i),
+                        "notation" => $this->getAt(6, $i)
+                    ));
+                    $this->assembly->addOtherUnit(array(
+                        'unit'=> $otherUnit,
+                        'count' => $this->getAt(5, $i),
+                        'posNum' => $this->getAt(2, $i)
+                    ));
+                }
+            }
+        }
+    }
+    private function parseMaterialUnits () {
+        /*      Парсим раздел Материалы      */
+        if(isset($this->sections['MATS'])) {
+            $i = $this->sections['MATS']['start'];
+            for (; $i < $this->sections['MATS']['end']; $i++) {
+                if ($this->getAt(4, $i) != "") {
+                    $matUnit = new MaterialUnit();
+                    $matUnit->init(array(
+                        "name" => $this->getAt(4, $i),
+                        "notation" => $this->getAt(6, $i)
+                    ));
+                    $this->assembly->addMatUnit(array(
+                        'unit'=> $matUnit,
+                        'count' => $this->getAt(5, $i),
+                        'posNum' => $this->getAt(2, $i)
+                    ));
+                }
+            }
+        }
+    }
 
     private function isCaptionBody ($j) {
         return ($this->helper->strtolower_utf8($this->getAt(0, $j)) == "бч" && /*деталь БЧ*/
@@ -389,9 +429,9 @@ class Parser {
 //        return $this->getAt(3, $j);
         if(preg_match("/\A\s*(-[0-9]?[0-9])\s*/", $design)) {
             // Это исполнение. Ищем обозначение
-            $design = $this->activeDetail . trim($design);
+            $design = $this->activeDesignation . trim($design);
         } else {
-            $this->activeDetail = $design; // Записываем последнюю деталь. вдруг будет исполнение
+            $this->activeDesignation = $design; // Записываем последнюю деталь. вдруг будет исполнение
         }
         return $design;
     }
@@ -404,5 +444,4 @@ class Parser {
     private function getAt($x, $y){
         return $this->excelObj->getCellByColumnAndRow($x,$y)->getValue();
     }
-
 }

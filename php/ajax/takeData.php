@@ -40,10 +40,10 @@ if(isset($_FILES['specs']) > 0) {
             if($next !== null)
                 $data = array_merge($data, $next); //Получили весь вал информации из спецификаций
         }
-//        var_dump($data);
-//        exit;
         $sorter = new Sorter();
         $data = $sorter->rebuild($data);
+//        var_dump($data);
+//        exit;
         $data = $sorter->sort($data, $_POST['rootSpec']);
 //      echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 //        var_dump($data);
@@ -85,6 +85,12 @@ if(isset($_FILES['specs']) > 0) {
         }
         tr.st {
             background-color: #EBFFF4;
+        }
+        tr.oth {
+            background-color: #EBFFAF;
+        }
+        tr.mat {
+            background-color: #E1FFE7;
         }
     </style>
 </head>

@@ -21,6 +21,8 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
     private $detailUnits; //входящие детали
     private $specFormat; //формат спецификации
     private $standartUnits; //Стандартные изделия
+    private $otherUnits; //Прочие изделия
+    private $matUnits;
 
     public function __construct () {
         $this->docs = [];
@@ -28,6 +30,8 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
         $this->warnings = [];
         $this->detailUnits = [];
         $this->standartUnits = [];
+        $this->otherUnits = [];
+        $this->matUnits = [];
         $this->trustlevel = 0;
         $this->specFormat = '';
     }
@@ -113,6 +117,13 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
             "posNum" => $stUInfo['posNum']
         );
     }
+    public function addArrayOfStUnits(array $stUnits) {
+        if(count($stUnits) > 0) {
+            foreach ($stUnits as $st) {
+                $this->addStandartUnit($st);
+            }
+        }
+    }
 
     /**
      * @return array
@@ -120,6 +131,58 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
     public function getStandartUnits(): array
     {
         return $this->standartUnits;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOtherUnits()
+    {
+        return $this->otherUnits;
+    }
+
+    /**
+     * @param mixed $otherUnits
+     */
+    public function addOtherUnit($stUInfo): void {
+        $this->otherUnits[] = array(
+            'unit' => $stUInfo['unit'],
+            'count' => $stUInfo['count'],
+            "posNum" => $stUInfo['posNum']
+        );
+    }
+    public function addArrayOfOthUnits(array $otherUnits) {
+        if(count($otherUnits) > 0) {
+            foreach ($otherUnits as $st) {
+                $this->addOtherUnit($st);
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getMatUnits(): array
+    {
+        return $this->matUnits;
+    }
+
+    /**
+     * @param mixed $otherUnits
+     */
+    public function addMatUnit($stUInfo): void {
+        $this->matUnits[] = array(
+            'unit' => $stUInfo['unit'],
+            'count' => $stUInfo['count'],
+            "posNum" => $stUInfo['posNum']
+        );
+    }
+    public function addArrayOfMatUnits(array $matUnit) {
+        if(count($matUnit) > 0) {
+            foreach ($matUnit as $st) {
+                $this->addMatUnit($st);
+            }
+        }
     }
 
 

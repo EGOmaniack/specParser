@@ -6,9 +6,22 @@
  * Time: 14:13
  */
 
-class StandartUnit extends SpecObject implements initable, iErrorChecker {
+class StandartUnit extends Purchased implements iErrorChecker {
     private $shortName;
     private $parametr;
+
+    public function checkErrors(): void {
+
+    }
+}
+
+class OtherUnit extends Purchased implements iErrorChecker {
+    public function checkErrors(): void {
+
+    }
+}
+
+class MaterialUnit extends SpecObject implements initable, iErrorChecker {
 
     public function __construct(){
         $this->warnings = [];
@@ -21,6 +34,7 @@ class StandartUnit extends SpecObject implements initable, iErrorChecker {
     }
 
     public function checkErrors(): void {
-
+        if($this->notation == '')
+            $this->addWarning(new Warning('noMeasure'));
     }
 }

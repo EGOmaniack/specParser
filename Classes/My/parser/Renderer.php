@@ -127,6 +127,46 @@ class Renderer {
                 $result .= "</tr>";
             }
         }
+        // В прочие изделия
+        $otherUnits = $assemb->getOtherUnits();
+        if(count($otherUnits) > 0) {
+            foreach ($otherUnits as $othU) {
+                $result .= "<tr class=\"oth\">";
+                $result .= "<td>". ++$this->counter . "</td>";
+                $result .= "<td></td><td></td>";
+                $result .= "<td>" . $othU['posNum'] . "</td>";
+                $result .= "<td></td>";
+                $result .= "<td>" . $othU['unit']->getName() . "</td>";
+                $result .= "<td>" . $othU['count'] . "</td>";
+                $result .= "<td>" . $summcount . "</td>";
+                $result .= "<td>" . ($othU['count'] * $summcount) . "</td>";
+                $result .= "<td>" . $othU['unit']->getNotation() . $this->getWarnings($othU['unit']) . "</td>";
+                $result .= "<td>" . $assemb->getDesignation() . "</td>";
+                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                $result .= "</tr>";
+            }
+        }
+        // В Материалы
+        $matUnits = $assemb->getMatUnits();
+        if(count($matUnits) > 0) {
+            foreach ($matUnits as $matU) {
+                $result .= "<tr class=\"mat\">";
+                $result .= "<td>". ++$this->counter . "</td>";
+                $result .= "<td></td><td></td>";
+                $result .= "<td>" . $matU['posNum'] . "</td>";
+                $result .= "<td></td>";
+                $result .= "<td>" . $matU['unit']->getName() . "</td>";
+                $result .= "<td>" . $matU['count'] . "</td>";
+                $result .= "<td>" . $summcount . "</td>";
+                $result .= "<td>" . ($matU['count'] * $summcount) . "</td>";
+                $result .= "<td>" . $matU['unit']->getNotation() . $this->getWarnings($matU['unit']) . "</td>";
+                $result .= "<td>" . $assemb->getDesignation() . "</td>";
+                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                $result .= "</tr>";
+            }
+        }
         return $result;
     }
     private function visit() {

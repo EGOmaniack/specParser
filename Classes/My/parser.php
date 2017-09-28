@@ -5,6 +5,7 @@ if (!defined('MYCLASSES_ROOT')) {
     include(MYCLASSES_ROOT . 'Dictionary/dictionary.php');
 
     include(MYCLASSES_ROOT . 'specObj/specObject.php');
+    include(MYCLASSES_ROOT . 'specObj/purchased.php');
     include(MYCLASSES_ROOT . 'specObj/assemblyUnit.php');
     include(MYCLASSES_ROOT . 'specObj/detailUnit.php');
     include(MYCLASSES_ROOT . 'specObj/standartUnit.php');

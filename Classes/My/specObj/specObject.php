@@ -58,4 +58,12 @@ class SpecObject {
         return $this->notation;
     }
 
+    /**
+     * @param string $designation
+     */
+    public function setDesignation(string $designation)
+    {
+        $this->designation = $designation;
+    }
+
 }

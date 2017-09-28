@@ -116,7 +116,7 @@ class Sorter {
 
     /**
      * @param array $data
-     * @return array
+     * @return arrayУРМ 0.00.00
      */
     public function rebuild(Array $data) {
 
@@ -132,10 +132,11 @@ class Sorter {
             "name" => "",
             "notation" => ""
         ));
+//        var_dump($data); exit;
         foreach ($data as $key => $specData) {
             if($specData['me']) {
                 $meAssemb = $specData['assembly'];
-                unset($data[$key]);
+//                var_dump($specData['assembly']); exit;
             }
         }
         $assemblys = [];
@@ -145,13 +146,11 @@ class Sorter {
 
         foreach ($data as $specData) {
 //            var_dump($meAssemb); exit;
-            if($specData['assembly']->getDesignation() === $meAssemb->getDesignation()) {
-                $stUs = $meAssemb->getStandartUnits();
-                if(count($stUs)>0) {
-                    foreach ($stUs as $stU) {
-                        $specData['assembly']->addStandartUnit($stU);
-                    }
-                }
+            if($specData['assembly']->getDesignation() === $meAssemb->getDesignation() &&
+            !$specData['me']) {
+                $specData['assembly']->addArrayOfStUnits($meAssemb->getStandartUnits());
+                $specData['assembly']->addArrayOfOthUnits($meAssemb->getOtherUnits());
+                $specData['assembly']->addArrayOfMatUnits($meAssemb->getMatUnits());
             }
 
             if(!$specData['me'])
@@ -176,7 +175,7 @@ class Sorter {
         $result['blankAssemblys'] = $blankAssemblys;
         $result['details'] = $details;
         $result['blankDetails'] = $blankDetails;
-
+//var_dump($result); exit;
         return $result;
     }
 }
