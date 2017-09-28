@@ -7,16 +7,18 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="./ajax/takeData.php" method="post"
-        enctype="multipart/form-data">
+    <form action="ajax/takeData.php" method="post"
+          enctype="multipart/form-data">
+        <input type="text" name="rootSpec">
         <input
-            required
-            multiple
-            type="file"
-            name="specs[]"
-            id="specs"
+                required
+                multiple
+                type="file"
+                name="specs[]"
+                id="specs"
         >
         <input type="submit" value="Отправить">
     </form>
+    <script src="script/main.js"></script>
 </body>
 </html>
