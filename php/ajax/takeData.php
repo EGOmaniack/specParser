@@ -90,7 +90,7 @@ if(isset($_FILES['specs']) > 0) {
             background-color: #EBFFAF;
         }
         tr.mat {
-            background-color: #E1FFE7;
+            background-color: #E1E4E7;
         }
     </style>
 </head>
