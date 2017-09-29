@@ -25,7 +25,7 @@ class DetailUnit extends SpecObject implements initable, iErrorChecker {
         $this->warnings = [];
         $this->trustlevel = 0;
     }
-    public function init (array $info): void {
+    public function init (array $info) {
 
         if(preg_match("/[-0-9]{3,3}$/", $info['designation']))
             $this->isIspolnenie = true;
@@ -37,7 +37,7 @@ class DetailUnit extends SpecObject implements initable, iErrorChecker {
         $this->checkErrors();
     }
 
-    public function checkErrors(): void {
+    public function checkErrors() {
         $this->warnings = [];
         if($this->drawingFormat == '' && !$this->isIspolnenie)
             $this->addWarning(new Warning('noFormat'));

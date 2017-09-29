@@ -29,7 +29,7 @@ class SpecObject {
             $this->warnings[] = $warn;
     }
 
-    public function getWarnings($minWarnLvl = 0): ?array {
+    public function getWarnings($minWarnLvl = 0) {
         $result = null;
         if(count($this->warnings) > 0) {
             foreach ($this->warnings as $warning) {

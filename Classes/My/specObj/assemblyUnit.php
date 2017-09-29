@@ -51,7 +51,7 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
         $this->checkErrors();
     }
 
-    public function checkErrors(): void {
+    public function checkErrors() {
         $this->warnings = [];
         if($this->drawingFormat == null)
             $this->addWarning(new Warning('noFormat'));
@@ -60,17 +60,17 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
         if($this->designation === null)
             $this->addWarning(new Warning('noDesign'));
     }
-    public function init (array $info): void {
+    public function init (array $info) {
         $this->drawingFormat = $info['drawingFormat'];
         $this->designation = $info['designation'];
         $this->name = $info['name'];
         $this->notation = $info['notation'];
         $this->checkErrors();
     }
-    public function addDoc(Document $doc): void {
+    public function addDoc(Document $doc) {
         $this->docs[] = $doc;
     }
-    public function addAssemb(AssemblyUnit $assem, $count, $posNumber = null): void {
+    public function addAssemb(AssemblyUnit $assem, $count, $posNumber = null) {
         $this->assemblys[] = Array(
             "count" => $count,
             "unit" =>$assem,
@@ -78,7 +78,7 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
         );
     }
 
-    public function  addDetailUnit($detailInfo): void {
+    public function  addDetailUnit($detailInfo) {
         $this->detailUnits[] = Array(
             "count" => $detailInfo['count'],
             "unit" => $detailInfo['unit'],
@@ -110,7 +110,7 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
     /**
      * @param $stUInfo
      */
-    public function addStandartUnit($stUInfo): void {
+    public function addStandartUnit($stUInfo) {
         $this->standartUnits[] = array(
             'unit' => $stUInfo['unit'],
             'count' => $stUInfo['count'],
@@ -144,7 +144,7 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
     /**
      * @param mixed $otherUnits
      */
-    public function addOtherUnit($stUInfo): void {
+    public function addOtherUnit($stUInfo) {
         $this->otherUnits[] = array(
             'unit' => $stUInfo['unit'],
             'count' => $stUInfo['count'],
@@ -170,7 +170,7 @@ class AssemblyUnit extends SpecObject implements initable, iErrorChecker {
     /**
      * @param mixed $otherUnits
      */
-    public function addMatUnit($stUInfo): void {
+    public function addMatUnit($stUInfo) {
         $this->matUnits[] = array(
             'unit' => $stUInfo['unit'],
             'count' => $stUInfo['count'],

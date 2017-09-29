@@ -21,6 +21,7 @@ class Sorter {
     public function sort(Array $data, $rootDesign) {
         $this->dataArray = $data;
         $loopIndex = -1;
+//        var_dump($data); exit;
         //Сортируем детали
         while (count($this->dataArray['blankDetails']) > 0) {
             $loopIndex ++;

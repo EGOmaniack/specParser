@@ -7,9 +7,9 @@ interface iSpecObject {
 }
 
 interface initable {
-    public function init(array $info): void;
+    public function init(array $info);
 }
 
 interface iErrorChecker {
-    public function checkErrors (): void;
+    public function checkErrors ();
 }

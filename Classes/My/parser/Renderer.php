@@ -99,7 +99,7 @@ class Renderer {
                 $result .= "<td>" . $detail['unit']->getName() . "</td>";
                 $result .= "<td>" . $detail['count'] . "</td>";
                 $result .= "<td>" . $summcount . "</td>";
-                $result .= "<td>" . ($detail['count'] * $summcount) . "</td>";
+                $result .= "<td>" . ((int)$detail['count'] * $summcount) . "</td>";
                 $result .= "<td>" . $detail['unit']->getNotation() . $this->getWarnings($detail['unit']) . "</td>";
                 $result .= "<td>" . $assemb->getDesignation() . "</td>";
                 $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
@@ -119,7 +119,7 @@ class Renderer {
                 $result .= "<td>" . $stU['unit']->getName() . "</td>";
                 $result .= "<td>" . $stU['count'] . "</td>";
                 $result .= "<td>" . $summcount . "</td>";
-                $result .= "<td>" . ($stU['count'] * $summcount) . "</td>";
+                $result .= "<td>" . ((int)$stU['count'] * $summcount) . "</td>";
                 $result .= "<td>" . $stU['unit']->getNotation() . $this->getWarnings($stU['unit']) . "</td>";
                 $result .= "<td>" . $assemb->getDesignation() . "</td>";
                 $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
@@ -139,7 +139,7 @@ class Renderer {
                 $result .= "<td>" . $othU['unit']->getName() . "</td>";
                 $result .= "<td>" . $othU['count'] . "</td>";
                 $result .= "<td>" . $summcount . "</td>";
-                $result .= "<td>" . ($othU['count'] * $summcount) . "</td>";
+                $result .= "<td>" . ((int)$othU['count'] * $summcount) . "</td>";
                 $result .= "<td>" . $othU['unit']->getNotation() . $this->getWarnings($othU['unit']) . "</td>";
                 $result .= "<td>" . $assemb->getDesignation() . "</td>";
                 $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
@@ -159,7 +159,7 @@ class Renderer {
                 $result .= "<td>" . $matU['unit']->getName() . "</td>";
                 $result .= "<td>" . $matU['count'] . "</td>";
                 $result .= "<td>" . $summcount . "</td>";
-                $result .= "<td>" . ($matU['count'] * $summcount) . "</td>";
+                $result .= "<td>" . ((int)$matU['count'] * $summcount) . "</td>";
                 $result .= "<td>" . $matU['unit']->getNotation() . $this->getWarnings($matU['unit']) . "</td>";
                 $result .= "<td>" . $assemb->getDesignation() . "</td>";
                 $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";

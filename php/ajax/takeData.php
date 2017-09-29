@@ -9,6 +9,7 @@ include '../../Classes/PHPExcel.php';
 
 if(isset($_FILES['specs']) > 0) {
     if($_POST['rootSpec'] != '') {
+        $rootSpec = str_replace(".", "."/*англ на русс*/,$_POST['rootSpec']);
         $pfiles = [];
         $filesCount = count($_FILES['specs']['name']);
         $data = [];
@@ -44,7 +45,7 @@ if(isset($_FILES['specs']) > 0) {
         $data = $sorter->rebuild($data);
 //        var_dump($data);
 //        exit;
-        $data = $sorter->sort($data, $_POST['rootSpec']);
+        $data = $sorter->sort($data, $rootSpec);
 //      echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 //        var_dump($data);
 //        echo serialize($data);

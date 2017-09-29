@@ -12,7 +12,7 @@ class Purchased extends SpecObject implements initable {
         $this->warnings = [];
     }
 
-    public function init (array $info): void {
+    public function init (array $info) {
         $this->name = $info['name'];
         $this->notation = $info['notation'];
         $this->checkErrors();

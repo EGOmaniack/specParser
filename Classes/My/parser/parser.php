@@ -33,7 +33,6 @@ class Parser {
         $this->getSpecificationInfo();
         $this->initSections();
         $this->subAssembs = [];
-
     }
     private function MeDetect(): bool {
         $result = false;
@@ -66,6 +65,7 @@ class Parser {
     }
     private function getSpecificationInfo () {
         $result = array(
+            "copy" => false,
             "count" => 1,
             "diffLineNum" => (int) $this->height,
             "assemblys" => array()
@@ -73,7 +73,10 @@ class Parser {
         for ($i=1; $i <= $this->height; $i++) {
             $line = $this->getAt(3, $i);
             $pattern = "/(П|п)(еременные)\s(данные)([\sа-я:]*+)/"; // Нашли "Переменные данные для исполнений:"
-            if(preg_match($pattern, $line)) {
+            $pattern2 = "/(Р|р)(азличия\sисполнений)[\sа-я]+/"; //Как минимум есть -01 с таким же перечнем деталей
+            if(preg_match($pattern2, $line)) {
+                $result["copy"] = true; //Различия исполнений по чертежу предполагает как минимум копию сборки с индексом -01
+            } else if(preg_match($pattern, $line)) {
                 //Выяснилось что тут более одной сборки описывается
                 $result['count'] += 1;
                 $count = 0;
@@ -143,7 +146,7 @@ class Parser {
                     } else if($this->index > 0) {
                         $lastSection["key"] = array_search($toLowName, $cats);
                         $lastSection["start"] = $i+2;
-                        $lastSection['end'] = 0;
+                        $lastSection['end'] = $this->specificationInfo["assemblys"][$this->index-1]['endLine'];
                     } else {
                         echo "Раздел Документация не задан <br />";
                         echo "Первый найденный раздел - " . $toLowName . "<br />";
@@ -177,13 +180,28 @@ class Parser {
         $this->parseOtherUnits();
         $this->parseMaterialUnits();
         if($this->specificationInfo['count'] == 1) {
-            $result = Array(Array(
+            $result = Array( 0 => Array( // Простая плоская спецификация
                 "assembly" => $this->assembly,
                 "blankAssembly" => $this->blankAssemblys,
                 "details" => $this->details,
                 "blankDetails" => $this->blankdetails,
                 "me" => $this->me
             ));
+            if($this->specificationInfo["copy"]) {
+                $newDesign = $this->assembly->getDesignation() . "-01";
+                $copyAssemb = clone $this->assembly;
+                $copyAssemb->setDesignation($newDesign);
+                $this->blankdetails = $this->newPapa($this->blankdetails, $newDesign);
+//                var_dump($this->assembly);
+//                var_dump($this->blankdetails); exit ;
+                $result[] = Array(
+                    "assembly" => $copyAssemb,
+                    "blankAssembly" => $this->blankAssemblys,
+                    "details" => array(),
+                    "blankDetails" => $this->blankdetails,
+                    "me" => $this->me
+                );
+            }
         } else {
             if($this->index != 0) {
                 $result = Array(
@@ -215,7 +233,7 @@ class Parser {
 
                     $subAssemblys[$key] = $subAss;
                 }
-                $result = $subAssemblys; //чудеса !!!
+                $result = $subAssemblys;
             }
         }
 
@@ -267,6 +285,13 @@ class Parser {
             );
         }
     }
+    private function newPapa (array $blanks, $newDesignation) {
+        $result = $blanks;
+        foreach ($result as $key => $blank){
+            $result[$key]['parentDesignation'] = $newDesignation;
+        }
+        return $result;
+    }
     private function parseAssemblys() {
         /*      Парсим раздел Сборочные единицы      */
         if(isset($this->sections['SBED'])) {
@@ -290,55 +315,34 @@ class Parser {
     }
     private function parseDetails() {
         /*      Парсим раздел детали      */
+        $caption = ''; //Тут храним заголовок объединения если такой найдется
         if(isset($this->sections['DETAILS'])) {
             $i = $this->sections['DETAILS']["start"];
             for (; $i <= $this->sections['DETAILS']["end"]; $i++) {
-                $caption = null;
-                if ($this->getAt(4, $i) != "") {
+                if ($this->getAt(4, $i) != "") { //Отсекаем пустые строки
+
                     if ($this->isCaption($i)) {  // Нашел объединение
-                        $caption = $this->getAt(4, $i); // Запоминаем Заголовок объединения
+                        $caption = $this->getAt(4, $i); // Запоминаем Заголовок объединения. Больше ничего не делаем
                     } else {  // не заголовок объединение
-                        //Вдруг это тело объединения
                         $detail = new DetailUnit();
-                        if ($caption !== null) { // Если заголовок объединения задан - то надо искать конец этой группы
-                            if ($this->isCaptionBody($i)) { //Мы все ещ под заголовком объединения
-                                $detail->init(array(
-                                    "drawingFormat" => $this->getDrawingFormat($i),
-                                    "designation" => $this->getDesignation($i),
-                                    "name" => $caption . " " . $this->getAt(4, $i),
-                                    "material" => null,
-                                    "notation" => $this->getAt(6, $i)
-                                    )
-                                );
-                                $this->details[] = $detail;
-                                $this->blankdetails[] = Array(
-                                    "parentDesignation" => $this->assembly->getDesignation(),
-                                    "count" => $this->getAt(5, $i),
-                                    "designation" => $this->getDesignation($i),
-                                    "name" => $this->getAt(4, $i),
-                                    "posNum" => $this->getAt(2, $i)
-                                );
-                            } else {
-                                $caption = null;// упс объединение закончилось. Перечитаем cell зная это
-                                $i--;
-                            }
-                        } else {
-                            $detail->init(array(
+                        $detail->init(array(
                                 "drawingFormat" => $this->getDrawingFormat($i),
                                 "designation" => $this->getDesignation($i),
-                                "name" => $this->getAt(4, $i),
+                                "name" => $caption . " " . $this->getAt(4, $i),
                                 "material" => null,
                                 "notation" => $this->getAt(6, $i)
-                                )
-                            );
-                            $this->details[] = $detail;
-                            $this->blankdetails[] = Array(
-                                "parentDesignation" => $this->assembly->getDesignation(),
-                                "count" => $this->getAt(5, $i),
-                                "designation" => $this->getDesignation($i),
-                                "name" => $this->getAt(4, $i),
-                                "posNum" => $this->getAt(2, $i)
-                            );
+                            )
+                        );
+                        $this->details[] = $detail;
+                        $this->blankdetails[] = Array(
+                            "parentDesignation" => $this->assembly->getDesignation(),
+                            "count" => $this->getAt(5, $i),
+                            "designation" => $this->getDesignation($i),
+                            "name" => $caption . " " . $this->getAt(4, $i),
+                            "posNum" => $this->getAt(2, $i)
+                        );
+                        if (!$this->isCaptionBody($i)) { //Мы уже не под заголовком объединения
+                            $caption = '';// упс объединение закончилось
                         }
                     }
                 }
@@ -409,24 +413,27 @@ class Parser {
     }
 
     private function isCaptionBody ($j) {
-        return ($this->helper->strtolower_utf8($this->getAt(0, $j)) == "бч" && /*деталь БЧ*/
+        $result = ($this->helper->strtolower_utf8($this->getAt(0, $j)) == "бч" && /*деталь БЧ*/
             $this->getAt(3, $j) != ''&& /*Есть обозначение*/
             !preg_match("/ГОСТ/", $this->getAt(4, $j)) /*нет ГОСТа*/
         );
+        return $result;
     }
-    private function isCaption ($j) {
+    private function isCaption ($i) {
         // Выясняем не объединение ли на этой строке (Только детали)
-        return (
-            $this->getAt(0, $j) == ''&& /*Нет формата*/
-            $this->helper->strtolower_utf8($this->getAt(0, $j+1)) == "бч" &&/*Следующая деталь БЧ*/
-            $this->getAt(2, $j) == '' &&/*Нет позиции*/
-            $this->getAt(3, $j) == ''&& /*Нет обозначения*/
-            $this->getAt(5, $j) == ''  /*Нет количества*/
+//        echo $this->getAt(4, $i);
+//        exit;
+        $result = (
+            $this->getAt(0, $i) == ''&& /*Нет формата*/
+            $this->helper->strtolower_utf8($this->getAt(0, $i+1)) == "бч" &&/*Следующая деталь БЧ*/
+//            $this->getAt(2, $i) == '' &&/*Нет позиции чет не правда*/
+            $this->getAt(3, $i) == ''&& /*Нет обозначения*/
+            $this->getAt(5, $i) == ''  /*Нет количества*/
         );
+        return $result;
     }
     private function getDesignation($j) {
-        $design = $this->getAt(3, $j);
-//        return $this->getAt(3, $j);
+        $design = str_replace(".", "."/*англ на русс*/,$this->getAt(3, $j));
         if(preg_match("/\A\s*(-[0-9]?[0-9])\s*/", $design)) {
             // Это исполнение. Ищем обозначение
             $design = $this->activeDesignation . trim($design);

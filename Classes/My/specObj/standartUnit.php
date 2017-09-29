@@ -10,13 +10,13 @@ class StandartUnit extends Purchased implements iErrorChecker {
     private $shortName;
     private $parametr;
 
-    public function checkErrors(): void {
+    public function checkErrors() {
 
     }
 }
 
 class OtherUnit extends Purchased implements iErrorChecker {
-    public function checkErrors(): void {
+    public function checkErrors() {
 
     }
 }
@@ -27,13 +27,13 @@ class MaterialUnit extends SpecObject implements initable, iErrorChecker {
         $this->warnings = [];
     }
 
-    public function init (array $info): void {
+    public function init (array $info) {
         $this->name = $info['name'];
         $this->notation = $info['notation'];
         $this->checkErrors();
     }
 
-    public function checkErrors(): void {
+    public function checkErrors() {
         if($this->notation == '')
             $this->addWarning(new Warning('noMeasure'));
     }
