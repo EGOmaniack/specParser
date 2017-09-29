@@ -46,35 +46,55 @@ class Renderer {
         $warns = $specObj->getWarnings(10);
         if($warns != null) {
             foreach ($warns as $warning) {
-                $result .= "\n<span style=\"color: orangered; weight: bold;\">" . $warning->message . "</span>\n";
+                $result .= "<br /><span style=\"color: orangered; weight: bold;\">" . $warning->message . "</span>";
             }
         }
 
+        return $result;
+    }
+    private function generateTableString($class, $drawingFormat, $posNum, $designation, $name, $count, $parentCount, $summCount,
+$notation, $parentDesignation) {
+
+        //TODO: В зависимости от запрашиваемого документа форма может отличаться
+        $result = '';
+        $result .=  "<tr class=\"$class\">";
+        $result .= "<td>". ++$this->counter . "</td>";
+        $result .= "<td>". $drawingFormat . "</td><td></td>";
+        $result .= "<td>" . $posNum . "</td>";
+        $result .= "<td>" . $designation . "</td>";
+        $result .= "<td>" . $name . "</td>";
+        $result .= "<td>" . $count . "</td>";
+        $result .= "<td>" . $parentCount . "</td>";
+        $result .= "<td>" . $summCount . "</td>";
+        $result .= "<td>" . $notation . "</td>";
+        $result .= "<td>" . $parentDesignation . "</td>";
+        $result .= "<td>" .  "</td>";
+        $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+        $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+        $result .= "</tr>";
         return $result;
     }
     private function getAssemblyInfo(
         AssemblyUnit $assemb,
         $posNum = '',
         $count = 1,
-        $perentCount = 1,
+        $parentCount = 1,
         $summcount = 1,
         $parentDesignation = "") {
 
-        $result = "<tr class=\"sb\">";
-        $result .= "<td>". ++$this->counter . "</td>";
-        $result .= "<td>". $assemb->getDrawingFormat() . "</td><td></td>";
-        $result .= "<td>" . $posNum . "</td>";
-        $result .= "<td>" . $assemb->getDesignation() . " СБ" . "</td>";
-        $result .= "<td>" . $assemb->getName() . "</td>";
-        $result .= "<td>" . $count . "</td>";
-        $result .= "<td>" . $perentCount . "</td>";
-        $result .= "<td>" . $summcount . "</td>";
-        $result .= "<td>" . /*$this->getWarnings($assemb)*/ $assemb->getNotation() . "</td>";
-        $result .= "<td>" . $parentDesignation . "</td>";
-        $result .= "<td>" .  "</td>";
-        $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-        $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-        $result .= "</tr>";
+        $result = $this->generateTableString(
+            "sb",
+            $assemb->getDesignation(),
+            $posNum,
+            $assemb->getDesignation() . " СБ",
+            $assemb->getName(),
+            $count,
+            $parentCount,
+            $summcount,
+            $assemb->getNotation(),
+            $parentDesignation
+            );
+
         if(count($assemb->getAssemblys()) > 0) {
             foreach ($assemb->getAssemblys() as $assembly) {
                 $result .= $this->getAssemblyInfo(
@@ -91,80 +111,73 @@ class Renderer {
         $dets = $assemb->getDetailUnits();
         if(count($dets) > 0) {
             foreach ($dets as $detail) {
-                $result .= "<tr>";
-                $result .= "<td>". ++$this->counter . "</td>";
-                $result .= "<td>". $detail['unit']->getDrawingFormat() . "</td><td></td>";
-                $result .= "<td>" . $detail['posNum'] . "</td>";
-                $result .= "<td>" . $detail['unit']->getDesignation() . "</td>";
-                $result .= "<td>" . $detail['unit']->getName() . "</td>";
-                $result .= "<td>" . $detail['count'] . "</td>";
-                $result .= "<td>" . $summcount . "</td>";
-                $result .= "<td>" . ((int)$detail['count'] * $summcount) . "</td>";
-                $result .= "<td>" . $detail['unit']->getNotation() . $this->getWarnings($detail['unit']) . "</td>";
-                $result .= "<td>" . $assemb->getDesignation() . "</td>";
-                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                $result .= "</tr>";
+                $result .= $this->generateTableString(
+                    "",
+                    $detail['unit']->getDrawingFormat(),
+                    $detail['posNum'],
+                    $detail['unit']->getDesignation(),
+                    $detail['unit']->getName(),
+                    $detail['count'],
+                    $summcount,
+                    ((int)$detail['count'] * $summcount),
+                    $detail['unit']->getNotation() . $this->getWarnings($detail['unit']),
+                    $assemb->getDesignation()
+                );
             }
         }
         // В стандартные изделия
         $standartUnits = $assemb->getStandartUnits();
         if(count($standartUnits) > 0) {
             foreach ($standartUnits as $stU) {
-                $result .= "<tr class=\"st\">";
-                $result .= "<td>". ++$this->counter . "</td>";
-                $result .= "<td></td><td></td>";
-                $result .= "<td>" . $stU['posNum'] . "</td>";
-                $result .= "<td></td>";
-                $result .= "<td>" . $stU['unit']->getName() . "</td>";
-                $result .= "<td>" . $stU['count'] . "</td>";
-                $result .= "<td>" . $summcount . "</td>";
-                $result .= "<td>" . ((int)$stU['count'] * $summcount) . "</td>";
-                $result .= "<td>" . $stU['unit']->getNotation() . $this->getWarnings($stU['unit']) . "</td>";
-                $result .= "<td>" . $assemb->getDesignation() . "</td>";
-                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                $result .= "</tr>";
+                $result .= $this->generateTableString(
+                    "st",
+                    "",
+                    $stU['posNum'],
+                    "",
+                    $stU['unit']->getName(),
+                    $stU['count'],
+                    $summcount,
+                    ((int)$stU['count'] * $summcount),
+                    $stU['unit']->getNotation() . $this->getWarnings($stU['unit']),
+                    $assemb->getDesignation()
+                    );
             }
         }
         // В прочие изделия
         $otherUnits = $assemb->getOtherUnits();
         if(count($otherUnits) > 0) {
             foreach ($otherUnits as $othU) {
-                $result .= "<tr class=\"oth\">";
-                $result .= "<td>". ++$this->counter . "</td>";
-                $result .= "<td></td><td></td>";
-                $result .= "<td>" . $othU['posNum'] . "</td>";
-                $result .= "<td></td>";
-                $result .= "<td>" . $othU['unit']->getName() . "</td>";
-                $result .= "<td>" . $othU['count'] . "</td>";
-                $result .= "<td>" . $summcount . "</td>";
-                $result .= "<td>" . ((int)$othU['count'] * $summcount) . "</td>";
-                $result .= "<td>" . $othU['unit']->getNotation() . $this->getWarnings($othU['unit']) . "</td>";
-                $result .= "<td>" . $assemb->getDesignation() . "</td>";
-                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                $result .= "</tr>";
+                $result .= $this->generateTableString(
+                    "oth",
+                    "",
+                    $othU['posNum'],
+                    "",
+                    $othU['unit']->getName(),
+                    $othU['count'],
+                    $summcount,
+                    ((int)$othU['count'] * $summcount),
+                    $othU['unit']->getNotation() . $this->getWarnings($othU['unit']),
+                    $assemb->getDesignation()
+                );
             }
         }
         // В Материалы
         $matUnits = $assemb->getMatUnits();
         if(count($matUnits) > 0) {
             foreach ($matUnits as $matU) {
-                $result .= "<tr class=\"mat\">";
-                $result .= "<td>". ++$this->counter . "</td>";
-                $result .= "<td></td><td></td>";
-                $result .= "<td>" . $matU['posNum'] . "</td>";
-                $result .= "<td></td>";
-                $result .= "<td>" . $matU['unit']->getName() . "</td>";
-                $result .= "<td>" . $matU['count'] . "</td>";
-                $result .= "<td>" . $summcount . "</td>";
-                $result .= "<td>" . ((int)$matU['count'] * $summcount) . "</td>";
-                $result .= "<td>" . $matU['unit']->getNotation() . $this->getWarnings($matU['unit']) . "</td>";
-                $result .= "<td>" . $assemb->getDesignation() . "</td>";
-                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                $result .= "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                $result .= "</tr>";
+
+                 $result .= $this->generateTableString(
+                    "mat",
+                    "",
+                     $matU['posNum'],
+                    "",
+                     $matU['unit']->getName(),
+                     $matU['count'],
+                     $summcount,
+                     ((int)$matU['count'] * $summcount),
+                     $matU['unit']->getNotation() . $this->getWarnings($matU['unit']),
+                     $assemb->getDesignation()
+                 );
             }
         }
         return $result;

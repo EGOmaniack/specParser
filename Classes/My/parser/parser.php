@@ -357,7 +357,7 @@ class Parser {
         /*      Парсим раздел стандартные изделия      */
         if(isset($this->sections['STANDART'])) {
             $i = $this->sections['STANDART']['start'];
-            for (; $i < $this->sections['STANDART']['end']; $i++) {
+            for (; $i <= $this->sections['STANDART']['end']; $i++) {
                 if ($this->getAt(4, $i) != "") {
                     $standartUnit = new StandartUnit();
                     $standartUnit->init(array(
@@ -377,7 +377,7 @@ class Parser {
         /*      Парсим раздел Прочие изделия      */
         if(isset($this->sections['OTHER'])) {
             $i = $this->sections['OTHER']['start'];
-            for (; $i < $this->sections['OTHER']['end']; $i++) {
+            for (; $i <= $this->sections['OTHER']['end']; $i++) {
                 if ($this->getAt(4, $i) != "") {
                     $otherUnit = new OtherUnit();
                     $otherUnit->init(array(
@@ -397,7 +397,7 @@ class Parser {
         /*      Парсим раздел Материалы      */
         if(isset($this->sections['MATS'])) {
             $i = $this->sections['MATS']['start'];
-            for (; $i < $this->sections['MATS']['end']; $i++) {
+            for (; $i <= $this->sections['MATS']['end']; $i++) {
                 if ($this->getAt(4, $i) != "") {
                     $matUnit = new MaterialUnit();
                     $matUnit->init(array(
