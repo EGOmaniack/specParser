@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e7a6895-6726-4043-9c1e-9f8c6f201608" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/simple/excel/Спецификация подсборки.xls" afterPath="$PROJECT_DIR$/example/simple/excel/Спецификация подсборки.xls" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/ТЛСМ 1.0010.00 Тяга.xls" afterPath="$PROJECT_DIR$/example/ТЛСМ 1.0010.00 Тяга.xls" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/УРМ 1.05.00 Ручка.xls" afterPath="$PROJECT_DIR$/example/УРМ 1.05.00 Ручка.xls" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/parser/Renderer.php" afterPath="$PROJECT_DIR$/Classes/My/parser/Renderer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/parser/Sorter.php" afterPath="$PROJECT_DIR$/Classes/My/parser/Sorter.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/parser/interfaces.php" afterPath="$PROJECT_DIR$/Classes/My/parser/interfaces.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/УРМ 1.00.00 МЭ Тележка.xls" afterPath="$PROJECT_DIR$/example/УРМ 1.00.00 МЭ Тележка.xls" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/parser/parser.php" afterPath="$PROJECT_DIR$/Classes/My/parser/parser.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/specObj/assemblyUnit.php" afterPath="$PROJECT_DIR$/Classes/My/specObj/assemblyUnit.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/specObj/detailUnit.php" afterPath="$PROJECT_DIR$/Classes/My/specObj/detailUnit.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/specObj/purchased.php" afterPath="$PROJECT_DIR$/Classes/My/specObj/purchased.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/specObj/specObject.php" afterPath="$PROJECT_DIR$/Classes/My/specObj/specObject.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/specObj/standartUnit.php" afterPath="$PROJECT_DIR$/Classes/My/specObj/standartUnit.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/ajax/takeData.php" afterPath="$PROJECT_DIR$/php/ajax/takeData.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/My/specObj/warning.php" afterPath="$PROJECT_DIR$/Classes/My/specObj/warning.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,11 +18,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="parser.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="parser.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/My/parser/parser.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="153" column="30" lean-forward="true" selection-start-line="153" selection-start-column="30" selection-end-line="153" selection-end-column="30" />
+            <state relative-caret-position="777">
+              <caret line="227" column="45" lean-forward="false" selection-start-line="227" selection-start-column="45" selection-end-line="227" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="standartUnit.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/My/specObj/standartUnit.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="37" column="52" lean-forward="false" selection-start-line="37" selection-start-column="43" selection-end-line="37" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="warning.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Classes/My/specObj/warning.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -118,7 +127,6 @@
         <option value="$PROJECT_DIR$/Classes/My/Dictionary/dictionary.php" />
         <option value="$PROJECT_DIR$/Classes/My/Dictionary/StandartUnits.json" />
         <option value="$PROJECT_DIR$/Classes/My/parser.php" />
-        <option value="$PROJECT_DIR$/Classes/My/specObj/warning.php" />
         <option value="$PROJECT_DIR$/Classes/My/specObj/specObject.php" />
         <option value="$PROJECT_DIR$/Classes/My/parser/Renderer.php" />
         <option value="$PROJECT_DIR$/Classes/My/specObj/assemblyUnit.php" />
@@ -129,6 +137,7 @@
         <option value="$PROJECT_DIR$/Classes/My/parser/Sorter.php" />
         <option value="$PROJECT_DIR$/php/ajax/takeData.php" />
         <option value="$PROJECT_DIR$/Classes/My/parser/parser.php" />
+        <option value="$PROJECT_DIR$/Classes/My/specObj/warning.php" />
       </list>
     </option>
   </component>
@@ -441,21 +450,22 @@
       <workItem from="1506567471860" duration="731000" />
       <workItem from="1506576167117" duration="4646000" />
       <workItem from="1506581222545" duration="658000" />
-      <workItem from="1506636429956" duration="10721000" />
+      <workItem from="1506636429956" duration="11600000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="192268000" />
+    <option name="totallyTimeSpent" value="193147000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1101" height="1167" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20184332" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20184332" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12618595" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33301708" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -468,29 +478,8 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33301708" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12618595" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20184332" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33301708" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.024546424" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -784,22 +773,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/My/specObj/standartUnit.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="35" column="33" lean-forward="false" selection-start-line="35" selection-start-column="33" selection-end-line="35" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/My/specObj/warning.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="22" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/My/parser/Renderer.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2788">
@@ -848,8 +821,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/My/parser/parser.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="153" column="30" lean-forward="true" selection-start-line="153" selection-start-column="30" selection-end-line="153" selection-end-column="30" />
+        <state relative-caret-position="777">
+          <caret line="227" column="45" lean-forward="false" selection-start-line="227" selection-start-column="45" selection-end-line="227" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/My/specObj/standartUnit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="37" column="52" lean-forward="false" selection-start-line="37" selection-start-column="43" selection-end-line="37" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/My/specObj/warning.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
           <folding />
         </state>
       </provider>

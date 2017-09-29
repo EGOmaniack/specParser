@@ -57,12 +57,19 @@ class Parser {
      * @param string $newParentDesignation
      * @return array
      */
-    private function changeParentForBlankDetail (array $blanks, string $newParentDesignation) {
+    private function changeParentForBlanks (array $blanks, string $newParentDesignation) {
         foreach ($blanks as $key => $blank) {
             $blanks[$key]['parentDesignation'] = $newParentDesignation;
         }
         return $blanks;
     }
+//    private function newPapa (array $blanks, $newDesignation) {
+//        $result = $blanks;
+//        foreach ($result as $key => $blank){
+//            $result[$key]['parentDesignation'] = $newDesignation;
+//        }
+//        return $result;
+//    }
     private function getSpecificationInfo () {
         $result = array(
             "copy" => false,
@@ -191,7 +198,8 @@ class Parser {
                 $newDesign = $this->assembly->getDesignation() . "-01";
                 $copyAssemb = clone $this->assembly;
                 $copyAssemb->setDesignation($newDesign);
-                $this->blankdetails = $this->newPapa($this->blankdetails, $newDesign);
+                $this->blankdetails = $this->changeParentForBlanks($this->blankdetails, $newDesign);
+                $this->blankAssemblys = $this->changeParentForBlanks($this->blankAssemblys, $newDesign);
 //                var_dump($this->assembly);
 //                var_dump($this->blankdetails); exit ;
                 $result[] = Array(
@@ -226,7 +234,7 @@ class Parser {
                     $subAss['assembly']->addArrayOfOthUnits($this->assembly->getOtherUnits());
                     $subAss['assembly']->addArrayOfMatUnits($this->assembly->getMatUnits());
                     $subAss['blankDetails'] = array_merge($subAss['blankDetails'],
-                        $this->changeParentForBlankDetail(
+                        $this->changeParentForBlanks(
                             $this->blankdetails,
                             $subAss['assembly']->getDesignation()
                             ));
@@ -285,13 +293,7 @@ class Parser {
             );
         }
     }
-    private function newPapa (array $blanks, $newDesignation) {
-        $result = $blanks;
-        foreach ($result as $key => $blank){
-            $result[$key]['parentDesignation'] = $newDesignation;
-        }
-        return $result;
-    }
+
     private function parseAssemblys() {
         /*      Парсим раздел Сборочные единицы      */
         if(isset($this->sections['SBED'])) {
